@@ -31,7 +31,9 @@
             "n": 1,
             "stop": [
                 "\n\n"
-            ]
+            ],
+            "model": "meta-llama/Llama-2-13b-chat-hf",
+            "url": "http://localhost:8080"
         }
     },
     "rank.cot": {

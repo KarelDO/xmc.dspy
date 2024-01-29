@@ -42,6 +42,8 @@ Install the rest of the requirements:
 
     pip install -r requirements.txt
 
+If you'll be using local models (e.g. llama-2), set up a local Text Generation Interface (TGI) [via these steps](https://github.com/stanfordnlp/dspy/blob/local_models_docs/docs/using_local_models.md#setting-up-the-text-generation-inference-server).
+
 
 ## 2) Load data
 Load the data. Optionally load a cache so can run our code without actually paying any inference costs.

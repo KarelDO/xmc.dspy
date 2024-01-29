@@ -25,14 +25,15 @@
             }
         ],
         "lm": {
-            "model": "meta-llama/Llama-2-13b-chat-hf",
             "temperature": 0.01,
             "max_tokens": 150,
             "top_p": 0.97,
             "n": 1,
             "stop": [
                 "\n\n"
-            ]
+            ],
+            "model": "meta-llama/Llama-2-13b-chat-hf",
+            "url": "http://localhost:8080"
         }
     },
     "rank.cot": {
