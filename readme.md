@@ -6,8 +6,8 @@
 ## Infer-Retrieve-Rank: In-Context Learning for Extreme Multi-Label classification
 
 Resources:
-1. [Jan'23] [X thread](https://twitter.com/KarelDoostrlnck/status/1749866526117908634)
-1. [Jan'23] [In-Context Learning for Extreme Multi-Label classification](https://arxiv.org/pdf/2401.12178.pdf) paper
+1. [Jan'23] [Paper announcement thread](https://twitter.com/KarelDoostrlnck/status/1749866526117908634) & [Code announcement thread](https://twitter.com/KarelDoostrlnck/status/1752015745649868992)
+1. **[Jan'23] [In-Context Learning for Extreme Multi-Label classification](https://arxiv.org/pdf/2401.12178.pdf) paper**
 
 ----
 **Infer-Retrieve-Rank** (IReRa) is a generic and modular *program* which specifies interactions between pretrained Language Models and Retrievers to efficiently solve multi-label classification tasks with an extreme amount of classes (≥10,000 classes). Using only ≅ 50 labeled input examples, IReRa can be *optimized* to achieve state-of-the-art performance, despite not being finetuned. This optimization generally involves having a strong, teacher Language Model (e.g. gpt4) solve the task and gather instructions or demonstrations that help a more efficient, student Language Model (e.g. llama-2) solve the task better. A user can easily specify which parts of the program are implemented using which LMs, to strike the perfect balance between cost and performance. 
