@@ -12,7 +12,7 @@ Resources:
 ----
 **Infer-Retrieve-Rank** (IReRa) is a generic and modular *program* which specifies interactions between pretrained Language Models and Retrievers to efficiently solve multi-label classification tasks with an extreme amount of classes (≥10,000 classes). Using only ≅ 50 labeled input examples, IReRa can be *optimized* to achieve state-of-the-art performance, despite not being finetuned. This optimization generally involves having a strong, teacher Language Model (e.g. gpt4) solve the task and gather instructions or demonstrations that help a more efficient, student Language Model (e.g. llama-2) solve the task better. A user can easily specify which parts of the program are implemented using which LMs, to strike the perfect balance between cost and performance. 
 
-The goal of IReRa is to easily be applicable to a broad range of tasks involving inference with Language Models and Retrieval. To this end, this repository detangles (i) the logic of Infer-Retrieve-Rank, (ii) the prompts needed to adapt IReRa to a specific domain and (iii) optimization techniques to improve performance. All of this is made possible through the [dspy](www.dspy.ai) programming model.
+The goal of IReRa is to easily be applicable to a broad range of tasks involving inference with Language Models and Retrieval. To this end, this repository detangles (i) the logic of Infer-Retrieve-Rank, (ii) the prompts needed to adapt IReRa to a specific domain and (iii) optimization techniques to improve performance. All of this is made possible through the [dspy](https://github.com/stanfordnlp/dspy) programming model.
 
 LM calls of our results are cached, meaning you can reproduce our runs without paying for any inference costs yourself.
 
