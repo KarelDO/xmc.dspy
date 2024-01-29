@@ -1,0 +1,191 @@
+{
+    "infer_retrieve.infer.cot": {
+        "traces": [],
+        "train": [],
+        "demos": [
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "You understand the importance of having a strong focus on details and you are effective at building relationship with your stakeholders .",
+                    "rationale": "produce the output. We ...",
+                    "output": "Building relationship, Focus, Stakeholder relationship management"
+                },
+                "_demos": [],
+                "_input_keys": null
+            },
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "Be able to lead and motivate people and have good communication skills",
+                    "rationale": "produce the output. We ...",
+                    "output": "Leadership, Motivation, Communication"
+                },
+                "_demos": [],
+                "_input_keys": null
+            }
+        ],
+        "lm": {
+            "model": "meta-llama/Llama-2-13b-chat-hf",
+            "temperature": 0.01,
+            "max_tokens": 150,
+            "top_p": 0.97,
+            "n": 1,
+            "stop": [
+                "\n\n"
+            ]
+        }
+    },
+    "rank.cot": {
+        "traces": [],
+        "train": [],
+        "demos": [
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "You understand the importance of having a strong focus on details and you are effective at building relationship with your stakeholders .",
+                    "options": [
+                        "manage relationships with stakeholders",
+                        "establish collaborative relations",
+                        "build trust",
+                        "communicate with stakeholders",
+                        "engage with stakeholders",
+                        "build business relationships",
+                        "customer relationship management",
+                        "build community relations",
+                        "social bonds",
+                        "negotiate with stakeholders",
+                        "set up effective working relationships with other sports players",
+                        "establish customer rapport",
+                        "develop therapeutic relationships",
+                        "manage student relationships",
+                        "team building",
+                        "negotiate with social service stakeholders",
+                        "focus on passengers",
+                        "create social alliances",
+                        "establish connections with young people",
+                        "build helping relationship with social service users",
+                        "use customer relationship management software",
+                        "create relationships with sport competitors",
+                        "focus on service",
+                        "implement strategic management",
+                        "knowledge management",
+                        "maintain relationships in performing arts",
+                        "human resource management",
+                        "promote communication between parties",
+                        "perform customer management",
+                        "Process-based management",
+                        "maintain relationship with customers",
+                        "build international relations",
+                        "develop a collaborative therapeutic relationship",
+                        "foster relationships with various types of carrier",
+                        "study relationships between characters",
+                        "communication",
+                        "project management",
+                        "support managers",
+                        "perform dating coaching",
+                        "represent the organisation",
+                        "focus lighting equipment",
+                        "develop membership strategies",
+                        "consult with stakeholders on implementation of a production",
+                        "marketing management",
+                        "personnel management",
+                        "integrate shareholders' interests in business plans",
+                        "develop organisational policies",
+                        "manage corporate training programmes",
+                        "apply organisational techniques",
+                        "social alliances"
+                    ],
+                    "rationale": "identify the skills that are directly expressed in the job vacancy snippet. The vacancy mentions the importance of having a strong focus on details and being effective at building relationships with stakeholders. Therefore, we should look for skills that are related to attention to detail and stakeholder relationship management.",
+                    "output": "manage relationships with stakeholders, communicate with stakeholders, engage with stakeholders, build business relationships, customer relationship management, establish collaborative relations, build trust, negotiate with stakeholders, maintain relationships in performing arts, maintain relationship with customers"
+                },
+                "_demos": [],
+                "_input_keys": null
+            },
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "Be able to lead and motivate people and have good communication skills",
+                    "options": [
+                        "communication",
+                        "communication principles",
+                        "use communication techniques",
+                        "leadership principles",
+                        "develop communications strategies",
+                        "motivate in sports",
+                        "communication studies",
+                        "teach communication methods",
+                        "promote communication between parties",
+                        "motivate others",
+                        "advise on communication strategies",
+                        "team building",
+                        "use therapeutic communication techniques",
+                        "electronic communication",
+                        "use communication devices",
+                        "leadership in nursing",
+                        "use communication equipment",
+                        "promote organisational communication",
+                        "lead a team",
+                        "communication sciences",
+                        "digital communication and collaboration",
+                        "use different communication channels",
+                        "communicate with media",
+                        "communication disorders",
+                        "use techniques to increase patients' motivation",
+                        "communicate in healthcare",
+                        "develop inclusive communication material",
+                        "apply technical communication skills",
+                        "lead others",
+                        "teach communication to clients",
+                        "personnel management",
+                        "psychology",
+                        "entrepreneurship",
+                        "promote good habits to avoid communication disorders",
+                        "demonstrate leadership in social service cases",
+                        "coordinate communication within a team",
+                        "communication related to hearing impairment",
+                        "inter-professional communication in the psychosocial field",
+                        "use motivational incentives in addiction counselling",
+                        "communicate by use of interpretation services",
+                        "handle communications in the food processing industry",
+                        "body language",
+                        "disseminate messages to people",
+                        "demonstrate motivation for sales",
+                        "manage a team",
+                        "cognitive psychology",
+                        "circulate information",
+                        "manage fitness goals",
+                        "disseminate internal communications",
+                        "represent the organisation"
+                    ],
+                    "rationale": "produce the output. We need to identify the skills that are directly expressed in the job vacancy snippet. The snippet mentions the ability to \"lead and motivate people\" and to \"have good communication skills.\" Therefore, we should look for skills related to leadership, motivation, and communication.",
+                    "output": "communication, use communication techniques, leadership principles, motivate others, lead a team, lead others, personnel management, coordinate communication within a team, manage a team, represent the organisation"
+                },
+                "_demos": [],
+                "_input_keys": null
+            }
+        ],
+        "lm": {
+            "model": "gpt-4-1106-preview",
+            "temperature": 0.0,
+            "max_tokens": 150,
+            "top_p": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0,
+            "n": 1,
+            "stop": [
+                "\n\n"
+            ]
+        }
+    },
+    "config": {
+        "infer_signature_name": "infer_esco",
+        "rank_signature_name": "rank_esco",
+        "prior_A": 0,
+        "prior_path": "./data/esco/esco_priors.json",
+        "rank_topk": 50,
+        "rank_skip": false,
+        "ontology_path": "./data/esco/skills_en_label.txt",
+        "ontology_name": "esco",
+        "retriever_model_name": "sentence-transformers/all-mpnet-base-v2"
+    }
+}

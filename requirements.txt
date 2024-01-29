@@ -1,0 +1,5 @@
+black==23.11.0
+sentence-transformers==2.2.2
+sentencepiece==0.1.99
+torch==2.1.1
+ipython==8.17.2

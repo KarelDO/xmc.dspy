@@ -1,0 +1,23 @@
+{
+    "dataset_name": "esco_techwolf",
+    "program_name": "infer-retrieve-rank",
+    "infer_student_model_name": "llama-2-13b-chat",
+    "infer_teacher_model_name": "gpt-3.5-turbo-instruct",
+    "rank_student_model_name": "gpt-4-1106-preview",
+    "rank_teacher_model_name": "gpt-4-1106-preview",
+    "infer_compile": true,
+    "infer_compile_metric_name": "rp10",
+    "rank_compile": true,
+    "rank_compile_metric_name": "rp10",
+    "optimizer_name": "left-to-right",
+    "validation_rp5": 63.73,
+    "validation_recall5": null,
+    "validation_rp10": 73.56,
+    "validation_rp50": 78.47,
+    "validation_recall10": null,
+    "test_rp5": 58.69,
+    "test_recall5": null,
+    "test_rp10": 65.69,
+    "test_rp50": null,
+    "test_recall10": null
+}

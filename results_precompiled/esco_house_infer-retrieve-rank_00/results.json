@@ -1,0 +1,22 @@
+{
+    "dataset_name": "esco_house",
+    "program_name": "infer-retrieve-rank",
+    "infer_student_model_name": "llama-2-13b-chat",
+    "infer_teacher_model_name": "gpt-3.5-turbo-instruct",
+    "rank_student_model_name": "gpt-4-1106-preview",
+    "rank_teacher_model_name": "gpt-4-1106-preview",
+    "infer_compile": true,
+    "infer_compile_metric_name": "rp50",
+    "rank_compile": true,
+    "rank_compile_metric_name": "rp10",
+    "validation_rp5": 53.33,
+    "validation_recall5": null,
+    "validation_rp10": 70.29,
+    "validation_rp50": 77.08,
+    "validation_recall10": null,
+    "test_rp5": 57.83,
+    "test_recall5": null,
+    "test_rp10": 67.53,
+    "test_rp50": null,
+    "test_recall10": null
+}

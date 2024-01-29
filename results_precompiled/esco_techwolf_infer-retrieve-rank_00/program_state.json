@@ -1,0 +1,194 @@
+{
+    "infer_retrieve.infer.cot": {
+        "traces": [],
+        "train": [],
+        "demos": [
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "However candidates with an overall experience in the pig production will be contacted .",
+                    "rationale": "produce the output. We ...",
+                    "output": "pig production"
+                },
+                "_demos": [],
+                "_input_keys": null
+            },
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "This can be commercial insight or production knowledge",
+                    "rationale": "produce the output. We ...",
+                    "output": "Commercial insight, Production knowledge"
+                },
+                "_demos": [],
+                "_input_keys": null
+            }
+        ],
+        "lm": {
+            "temperature": 0.01,
+            "max_tokens": 150,
+            "top_p": 0.97,
+            "n": 1,
+            "stop": [
+                "\n\n"
+            ]
+        }
+    },
+    "rank.cot": {
+        "traces": [],
+        "train": [],
+        "demos": [
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "However candidates with an overall experience in the pig production will be contacted .",
+                    "options": [
+                        "breed pigs",
+                        "animal production science",
+                        "handle pigs",
+                        "research livestock production",
+                        "meat industry",
+                        "dairy animal production",
+                        "livestock reproduction",
+                        "feed livestock",
+                        "documentation concerning meat production",
+                        "livestock feeding",
+                        "livestock",
+                        "develop animal feeds",
+                        "advise on livestock productivity",
+                        "livestock species",
+                        "livestock farming systems",
+                        "process livestock organs",
+                        "animal food products",
+                        "develop food production processes",
+                        "process animal by-products",
+                        "slaughter animals",
+                        "animal breeding programmes",
+                        "control the production of game meat for human consumption",
+                        "operate meat processing equipment",
+                        "meat and meat products",
+                        "manage livestock",
+                        "operate slaughterhouse equipment",
+                        "manage the health and welfare of livestock",
+                        "select livestock",
+                        "carry out hatchery production processes",
+                        "animal anatomy for food production",
+                        "plan animal breeding programmes",
+                        "train livestock and captive animals",
+                        "make decisions regarding livestock management",
+                        "production processes",
+                        "check the health of livestock",
+                        "manage mechanically controlled livestock production environments",
+                        "quality criteria for livestock feed production",
+                        "post-process meat",
+                        "tend meat processing production machines",
+                        "livestock selection principles",
+                        "cut pig's teeth",
+                        "live animal products",
+                        "monitor hatchery production",
+                        "control livestock disease",
+                        "prepared animal feeds",
+                        "process dairy farm products",
+                        "manage the reception of raw materials for animal feeds",
+                        "carry out humane harvesting practices",
+                        "monitor livestock",
+                        "prepare meat for sale"
+                    ],
+                    "rationale": "produce the output. We need to identify the skills that are directly expressed or implied in the job vacancy snippet provided. The snippet mentions \"overall experience in the pig production,\" which suggests that the candidate should have a broad range of skills related to pig production. We will look for skills that are specific to pigs and general livestock management, as well as those that pertain to the production process.",
+                    "output": "breed pigs, handle pigs, livestock reproduction, feed livestock, livestock feeding, livestock, manage livestock, manage the health and welfare of livestock, select livestock, check the health of livestock"
+                },
+                "_demos": [],
+                "_input_keys": null
+            },
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "This can be commercial insight or production knowledge",
+                    "options": [
+                        "customer insight",
+                        "business knowledge",
+                        "production processes",
+                        "participate in technical aspects of the production",
+                        "business analysis",
+                        "market research",
+                        "perform market research",
+                        "perform business analysis",
+                        "manage business knowledge",
+                        "develop production line",
+                        "knowledge management",
+                        "channel marketing",
+                        "perform business research",
+                        "analyse production processes for improvement",
+                        "set commercial strategies in vehicle showroom",
+                        "business intelligence",
+                        "oversee production requirements",
+                        "market analysis",
+                        "find your place within the architecture of the production",
+                        "control production",
+                        "marketing principles",
+                        "marketing mix",
+                        "marketing management",
+                        "supervise craft production",
+                        "apply knowledge of science technology and engineering",
+                        "communicate production plan",
+                        "strategic planning",
+                        "assist in developing marketing campaigns",
+                        "business model",
+                        "prepare production prototypes",
+                        "manage production systems",
+                        "apply business acumen",
+                        "commercial photography",
+                        "manage resources in food manufacturing",
+                        "train staff about product features",
+                        "examine production samples",
+                        "interpret business information",
+                        "teach industrial arts principles",
+                        "monitor production developments",
+                        "record production data",
+                        "carry out strategic research",
+                        "manage commercial risks",
+                        "commercial law",
+                        "identify customer objectives",
+                        "develop the look of a production",
+                        "identify new business opportunities",
+                        "determine production feasibility",
+                        "prepare market research reports",
+                        "identify potential markets for companies",
+                        "develop business case"
+                    ],
+                    "rationale": "identify the skills that are directly expressed in the job vacancy snippet. The snippet mentions \"commercial insight\" and \"production knowledge,\" which suggests that the job requires an understanding of both the commercial/business side and the production side of an operation. We should look for skills that relate to these two areas.",
+                    "output": "customer insight, production processes, business analysis, perform market research, analyse production processes for improvement, business intelligence, market analysis, apply business acumen, identify customer objectives, determine production feasibility"
+                },
+                "_demos": [],
+                "_input_keys": null
+            }
+        ],
+        "lm": {
+            "temperature": 0.0,
+            "max_tokens": 150,
+            "top_p": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0,
+            "n": 1,
+            "stop": [
+                "\n\n"
+            ],
+            "model": "gpt-4-1106-preview"
+        }
+    },
+    "config": {
+        "infer_signature_name": "infer_esco",
+        "rank_signature_name": "rank_esco",
+        "prior_A": 0,
+        "prior_path": "./data/esco/esco_priors.json",
+        "rank_topk": 50,
+        "chunk_context_window": 3000,
+        "chunk_max_windows": 5,
+        "chunk_window_overlap": 0.02,
+        "rank_skip": false,
+        "ontology_path": "./data/esco/skills_en_label.txt",
+        "ontology_name": "esco",
+        "retriever_model_name": "sentence-transformers/all-mpnet-base-v2",
+        "optimizer_name": "left-to-right"
+    }
+}

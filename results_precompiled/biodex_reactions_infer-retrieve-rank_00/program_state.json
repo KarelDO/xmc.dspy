@@ -1,0 +1,123 @@
+{
+    "infer_retrieve.infer.cot": {
+        "traces": [],
+        "train": [],
+        "demos": [
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "TITLE:\nFungal infection involvement in primary biliary cirrhosis: A review of 2 cases.\n\nABSTRACT:\nThe present study aimed to analyze the imaging, clinical and pathological features of fungal infection involvement in primary biliary cirrhosis (PBC) by retrospectively analyzing and reviewing the features of two patients with fungal infection involvement in PBC. Both patients were female. One patient had a confirmed diagnosis of PBC. The other patient had confirmed Sjogren syndrome and PBC. The two cases of PBC were infected with fungal infection after treatment with hormonal and immunosuppressive agents. RCR of sputum confirmed Pneumocystis spp. infection in the patient with PBC alone. The mucormycosis infection was confirmed in the other patient after pathological examination of a renal biopsy. The state of the illnesses progressed quickly and both patients ultimately succumbed to their conditions. The patient prognosis of fungal infection involvement PBC is poor. Patients treated with long-term hormone and immunosuppressive agents should be monitored.\n\nTEXT:\nIntroduction\nFungal infection has rarely been reported in patients with primary biliary cirrhosis (PBC); however it may occur following live transplant (LT) in patients with PBC, predisposing factors for the development of fungal infection following LT include diabetes mellitus, cholestasis, hypertransfusion, acute rejection, treatment with high-dose of steroids and immunosuppressive agents, renal failure and bacterial infection (1). The present study aimed to analyze the imaging, clinical and pathological features of fungal infection involvement in PBC by retrospectively analyzing and reviewing the features of two patients with fungal infection involvement in PBC who were admitted to our department.\n\nCase report\n\nCase 1",
+                    "rationale": "identify the adverse drug reactions affecting the patient. We will first identify the patients mentioned in the article, then look for any treatments or medications they received, and finally determine if there were any adverse reactions reported.",
+                    "output": "Fungal infection, Pneumocystis spp. infection, mucormycosis infection, diabetes mellitus, cholestasis, hypertransfusion, acute rejection, high-dose steroids, immunosuppressive agents, renal failure, bacterial infection"
+                },
+                "_demos": [],
+                "_input_keys": null
+            }
+        ],
+        "lm": {
+            "temperature": 0.01,
+            "max_tokens": 150,
+            "top_p": 0.97,
+            "n": 1,
+            "stop": [
+                "\n\n"
+            ],
+            "model": "meta-llama/Llama-2-13b-chat-hf"
+        }
+    },
+    "rank.cot": {
+        "traces": [],
+        "train": [],
+        "demos": [
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "TITLE:\nFungal infection involvement in primary biliary cirrhosis: A review of 2 cases.\n\nABSTRACT:\nThe present study aimed to analyze the imaging, clinical and pathological features of fungal infection involvement in primary biliary cirrhosis (PBC) by retrospectively analyzing and reviewing the features of two patients with fungal infection involvement in PBC. Both patients were female. One patient had a confirmed diagnosis of PBC. The other patient had confirmed Sjogren syndrome and PBC. The two cases of PBC were infected with fungal infection after treatment with hormonal and immunosuppressive agents. RCR of sputum confirmed Pneumocystis spp. infection in the patient with PBC alone. The mucormycosis infection was confirmed in the other patient after pathological examination of a renal biopsy. The state of the illnesses progressed quickly and both patients ultimately succumbed to their conditions. The patient prognosis of fungal infection involvement PBC is poor. Patients treated with long-term hormone and immunosuppressive agents should be monitored.\n\nTEXT:\nIntroduction\nFungal infection has rarely been reported in patients with primary biliary cirrhosis (PBC); however it may occur following live transplant (LT) in patients with PBC, predisposing factors for the development of fungal infection following LT include diabetes mellitus, cholestasis, hypertransfusion, acute rejection, treatment with high-dose of steroids and immunosuppressive agents, renal failure and bacterial infection (1). The present study aimed to analyze the imaging, clinical and pathological features of fungal infection involvement in PBC by retrospectively analyzing and reviewing the features of two patients with fungal infection involvement in PBC who were admitted to our department.\n\nCase report\n\nCase 1",
+                    "options": [
+                        "Acute kidney injury",
+                        "Renal impairment",
+                        "Renal failure",
+                        "Diabetes mellitus",
+                        "Fungal infection",
+                        "Bacterial infection",
+                        "Mucormycosis",
+                        "Pneumocystis jirovecii pneumonia",
+                        "Cholestasis",
+                        "Pneumonia",
+                        "Pneumocystis jirovecii infection",
+                        "Anuria",
+                        "Multiple organ dysfunction syndrome",
+                        "Candida infection",
+                        "Type 1 diabetes mellitus",
+                        "Pulmonary mucormycosis",
+                        "Respiratory failure",
+                        "Oliguria",
+                        "Type 2 diabetes mellitus",
+                        "Aspergillus infection",
+                        "Bile duct obstruction",
+                        "Prerenal failure",
+                        "Fungal skin infection",
+                        "Disseminated mucormycosis",
+                        "Respiratory tract infection fungal",
+                        "Jaundice cholestatic",
+                        "Eubacterium infection",
+                        "Transplant rejection",
+                        "Type 3 diabetes mellitus",
+                        "Gastrointestinal mucormycosis",
+                        "Hyperglycaemia",
+                        "Systemic mycosis",
+                        "Jaundice",
+                        "Postrenal failure",
+                        "Immunosuppressant drug therapy",
+                        "Cutaneous mucormycosis",
+                        "Gastrointestinal fungal infection",
+                        "Hepatitis cholestatic",
+                        "Pulmonary mycosis",
+                        "Rhinocerebral mucormycosis",
+                        "Superinfection fungal",
+                        "Cholelithiasis",
+                        "Superinfection bacterial",
+                        "Diabetes mellitus inadequate control",
+                        "Diabetic ketoacidosis",
+                        "Phaeohyphomycosis",
+                        "Transfusion-related circulatory overload",
+                        "Hypoglycaemia",
+                        "Fungal sepsis",
+                        "Blood creatinine increased"
+                    ],
+                    "rationale": "produce the output. We need to carefully read the article snippet to identify any adverse reactions that are explicitly mentioned or strongly implied. The article discusses two cases of primary biliary cirrhosis (PBC) with fungal infection involvement. It mentions that fungal infections may occur following liver transplant in patients with PBC and lists predisposing factors for the development of fungal infection, including diabetes mellitus, cholestasis, hypertransfusion, acute rejection, treatment with high-dose steroids and immunosuppressive agents, renal failure, and bacterial infection. The article also specifically mentions that one patient had Pneumocystis spp. infection and the other had mucormycosis infection. Both patients succumbed to their conditions, indicating severe outcomes.",
+                    "output": "Renal failure, Diabetes mellitus, Fungal infection, Bacterial infection, Mucormycosis, Pneumocystis jirovecii infection, Cholestasis, Immunosuppressant drug therapy, Transplant rejection, Respiratory failure"
+                },
+                "_demos": [],
+                "_input_keys": null
+            }
+        ],
+        "lm": {
+            "temperature": 0.0,
+            "max_tokens": 150,
+            "top_p": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0,
+            "n": 1,
+            "stop": [
+                "\n\n"
+            ],
+            "model": "gpt-4-1106-preview"
+        }
+    },
+    "config": {
+        "infer_signature_name": "infer_biodex",
+        "rank_signature_name": "rank_biodex",
+        "prior_A": 1000,
+        "prior_path": "./data/biodex/biodex_priors.json",
+        "rank_topk": 50,
+        "chunk_context_window": 3000,
+        "chunk_max_windows": 5,
+        "chunk_window_overlap": 0.02,
+        "rank_skip": false,
+        "ontology_path": "./data/biodex/reaction_terms.txt",
+        "ontology_name": "biodex",
+        "retriever_model_name": "FremyCompany/BioLORD-STAMB2-v1",
+        "optimizer_name": "left-to-right"
+    }
+}

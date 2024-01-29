@@ -1,0 +1,195 @@
+{
+    "infer_retrieve.infer.cot": {
+        "traces": [],
+        "train": [],
+        "demos": [
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "performed code reviews for your teammates",
+                    "rationale": "find the skills. We need to find the skills that are mentioned in the vacancy.",
+                    "output": "Code review, teamwork"
+                },
+                "_demos": [],
+                "_input_keys": null
+            },
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "You are a good communicator and enjoy working in a team",
+                    "rationale": "find the skills. We need to find the skills that are mentioned in the vacancy.",
+                    "output": "Communication, Teamwork"
+                },
+                "_demos": [],
+                "_input_keys": null
+            }
+        ],
+        "lm": {
+            "temperature": 0.01,
+            "max_tokens": 150,
+            "top_p": 0.97,
+            "n": 1,
+            "stop": [
+                "\n\n"
+            ],
+            "model": "meta-llama/Llama-2-13b-chat-hf"
+        }
+    },
+    "rank.cot": {
+        "traces": [],
+        "train": [],
+        "demos": [
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "performed code reviews for your teammates",
+                    "options": [
+                        "team building",
+                        "teamwork principles",
+                        "work in teams",
+                        "encourage teambuilding",
+                        "build team spirit",
+                        "plan teamwork",
+                        "lead a team",
+                        "manage a team",
+                        "facilitate teamwork between students",
+                        "plan the work of teams and individuals",
+                        "conduct ICT code review",
+                        "stimulate creativity in the team",
+                        "coordinate communication within a team",
+                        "encourage teams for continuous improvement",
+                        "cooperate with colleagues",
+                        "communication",
+                        "peer group methods",
+                        "assemble an artistic team",
+                        "work in fitness teams",
+                        "social alliances",
+                        "ensure positive relations within the artistic team",
+                        "work in a construction team",
+                        "motivate supporters",
+                        "coordinate engineering teams",
+                        "report to the team leader",
+                        "lead a team in forestry services",
+                        "organise supporters",
+                        "work in assembly line teams",
+                        "manage the security team",
+                        "risk management",
+                        "collaborate with coaching team",
+                        "evaluate performance of organisational collaborators",
+                        "craftsmanship",
+                        "perform inspection analysis",
+                        "personnel management",
+                        "contribute to the programmer's reflection process",
+                        "collaborate in company's daily operations",
+                        "work as a team in a hazardous environment",
+                        "capacity building",
+                        "coach staff for running the performance",
+                        "motivate others",
+                        "military drill",
+                        "establish collaborative relations",
+                        "shape organisational teams based on competencies",
+                        "create social alliances",
+                        "set up effective working relationships with other sports players",
+                        "supervise crew",
+                        "work with supporting team in community arts programme",
+                        "coaching techniques",
+                        "write inspection reports"
+                    ],
+                    "rationale": "identify the skills that are directly expressed in the job vacancy snippet. The vacancy mentions \"performed code reviews for your teammates,\" which implies certain skills that are necessary to fulfill this task. We need to look for skills that involve working with others, specifically in a team setting, and skills related to the technical aspect of performing code reviews.",
+                    "output": "conduct ICT code review, work in teams, cooperate with colleagues, communication, report to the team leader, contribute to the programmer's reflection process, collaborate in company's daily operations, establish collaborative relations, shape organisational teams based on competencies, teamwork principles"
+                },
+                "_demos": [],
+                "_input_keys": null
+            },
+            {
+                "_store": {
+                    "augmented": true,
+                    "text": "You are a good communicator and enjoy working in a team",
+                    "options": [
+                        "communication",
+                        "team building",
+                        "communication principles",
+                        "use communication techniques",
+                        "teamwork principles",
+                        "work in teams",
+                        "encourage teambuilding",
+                        "build team spirit",
+                        "develop communications strategies",
+                        "plan teamwork",
+                        "communication studies",
+                        "teach communication methods",
+                        "promote communication between parties",
+                        "advise on communication strategies",
+                        "use therapeutic communication techniques",
+                        "electronic communication",
+                        "use communication devices",
+                        "lead a team",
+                        "use communication equipment",
+                        "manage a team",
+                        "promote organisational communication",
+                        "facilitate teamwork between students",
+                        "communication sciences",
+                        "digital communication and collaboration",
+                        "use different communication channels",
+                        "communicate with media",
+                        "communication disorders",
+                        "communicate in healthcare",
+                        "develop inclusive communication material",
+                        "apply technical communication skills",
+                        "teach communication to clients",
+                        "psychology",
+                        "plan the work of teams and individuals",
+                        "promote good habits to avoid communication disorders",
+                        "coordinate communication within a team",
+                        "communication related to hearing impairment",
+                        "inter-professional communication in the psychosocial field",
+                        "stimulate creativity in the team",
+                        "communicate by use of interpretation services",
+                        "handle communications in the food processing industry",
+                        "body language",
+                        "disseminate messages to people",
+                        "cognitive psychology",
+                        "circulate information",
+                        "encourage teams for continuous improvement",
+                        "disseminate internal communications",
+                        "cooperate with colleagues",
+                        "communicate by telephone",
+                        "maintain internal communication systems",
+                        "use a complex communication system"
+                    ],
+                    "rationale": "produce the output. We need to identify the skills that are directly expressed or implied in the vacancy snippet provided. The snippet states, \"You are a good communicator and enjoy working in a team.\" From this, we can infer that the job requires skills related to communication and teamwork. We will look for options that are most relevant to these two areas.",
+                    "output": "communication, team building, use communication techniques, teamwork principles, work in teams, encourage teambuilding, build team spirit, lead a team, manage a team, coordinate communication within a team"
+                },
+                "_demos": [],
+                "_input_keys": null
+            }
+        ],
+        "lm": {
+            "temperature": 0.0,
+            "max_tokens": 150,
+            "top_p": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0,
+            "n": 1,
+            "stop": [
+                "\n\n"
+            ],
+            "model": "gpt-4-1106-preview"
+        }
+    },
+    "config": {
+        "infer_signature_name": "infer_esco",
+        "rank_signature_name": "rank_esco",
+        "prior_A": 0,
+        "prior_path": "./data/esco/esco_priors.json",
+        "rank_topk": 50,
+        "chunk_context_window": 3000,
+        "chunk_max_windows": 5,
+        "chunk_window_overlap": 0.02,
+        "rank_skip": false,
+        "ontology_path": "./data/esco/skills_en_label.txt",
+        "ontology_name": "esco",
+        "retriever_model_name": "sentence-transformers/all-mpnet-base-v2",
+        "optimizer_name": "left-to-right"
+    }
+}
