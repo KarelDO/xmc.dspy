@@ -67,7 +67,7 @@ def load_data(dataset: str):
             ontology_items,
             ontology_descriptions,
             ontology_prior,
-        ) = _load_esco("techwolf", None, "techwolf_test.csv")
+        ) = _load_esco("techwolf", None, "techwolf_test_annotations.csv")
     elif dataset == "biodex_reactions":
         (
             validation_df,
