@@ -36,7 +36,7 @@ Create the conda environment:
 Install DSPy. Our work relies on an experimental branch of DSPy.
 
     git clone -b irera --single-branch https://github.com/stanfordnlp/dspy.git
-    pip install ./dspy
+    pip install ./dspy/
 
 Install the rest of the requirements:
 
