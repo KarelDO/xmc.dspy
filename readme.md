@@ -158,7 +158,7 @@ Software Engineering:
 - [ ] Track intermediate pipeline steps and log these traces for debugging
 - [ ] Use logging instead of print-statements, and dump logs to experiment file
 - [ ] Add RAG(atouille)
-- [ ] Make sure you can rerun our cached results without providing an API_KEY
+- [ ] Control seeds in LM calls and data loaders
 
 
 ----
