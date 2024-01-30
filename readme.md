@@ -61,7 +61,7 @@ Load the data and cache needed to reproduce our results.
 
 ## 3) Compile and run
 
-All compilation IReRa runs from our paper can be reproduced by running `bash scripts/run_left_to_right.sh`. We provide the resulting program state in `results_precompiled/` so you can load our compiled IReRa programs. 
+All compilation IReRa runs from our paper can be reproduced by running `bash scripts/compile_left_to_right.sh` or `bash scripts/run_left_to_right.sh`. We provide the resulting program state in `results_precompiled/` so you can load our compiled IReRa programs. 
 
 
 Load our compiled IReRa for ESCO_TECH and evaluate:
