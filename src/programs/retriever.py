@@ -32,7 +32,10 @@ class Retriever:
 
     def _load_embeddings(self) -> torch.Tensor:
         """Load or create embeddings for all query terms."""
-        ontology_embeddings_filename = f"./data/embeddings/{self.ontology_name}_embeddings[{self.friendly_model_name}].pt"
+        embedding_dir = os.path.join('.', 'data', 'embeddings')
+        if not os.path.exists(embedding_dir):
+            os.makedirs(embedding_dir)
+        ontology_embeddings_filename = os.path.join(embedding_dir,f"{self.ontology_name}_embeddings[{self.friendly_model_name}].pt")
 
         # If the file exists, load. Else, create embeddings.
         if os.path.isfile(ontology_embeddings_filename):
