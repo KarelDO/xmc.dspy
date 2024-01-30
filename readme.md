@@ -57,7 +57,7 @@ All compilation IReRa runs from our paper can be reproduced by running `bash scr
 
 Set your OpenAI API KEY:
 
-    export OPENIA_API_KEY=<your-key>
+    export OPENAI_API_KEY=<your-key>
 
 Load our compiled IReRa for ESCO_TECH and evaluate:
 

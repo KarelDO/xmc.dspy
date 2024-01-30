@@ -1,3 +1,6 @@
+import os
+os.environ["DSP_NOTEBOOK_CACHEDIR"] = os.path.join(".", "local_cache")
+
 from dspy import Models
 from src.data_loaders import load_data
 from src.evaluators import create_evaluators
@@ -84,6 +87,7 @@ if __name__ == "__main__":
     print("dataset_name: ", dataset_name)
     print("do_validation: ", do_validation)
     print("do_test: ", do_test)
+
 
     Models(config_path=lm_config_path)
 

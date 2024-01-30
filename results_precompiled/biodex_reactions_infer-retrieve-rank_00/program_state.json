@@ -23,7 +23,7 @@
                 "\n\n"
             ],
             "model": "meta-llama/Llama-2-13b-chat-hf",
-            "url": "http://localhost:8080"
+            "url": "http://future-hgx-1"
         }
     },
     "rank.cot": {
