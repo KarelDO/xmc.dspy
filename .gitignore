@@ -5,3 +5,5 @@ data/esco/
 data/embeddings/
 results/
 *.log
+local_cache/
+local_cache.tar.gz

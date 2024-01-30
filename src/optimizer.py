@@ -102,6 +102,7 @@ class LeftToRightOptimizer:
 
         return program
 
+
 class End2EndOptimizer:
     def __init__(
         self,
@@ -181,7 +182,6 @@ class End2EndOptimizer:
             program.rank.cot._compiled = True
 
         return program
-
 
 
 class LeftToRightOptimizer2(LeftToRightOptimizer):
@@ -273,6 +273,6 @@ supported_optimizers = {
 # def bayesian_optimizer_data(default_program, trainset, devset, test_name, dataset_name, kwargs):
 #     eval_kwargs = dict(num_threads=10, display_progress=True, display_table=0)
 #     teleprompter = BayesianSignatureOptimizer(prompt_model=kwargs["prompt_model"], task_model=kwargs["task_model"], metric=kwargs["metric"], n=10, init_temperature=1.0)
-#     compiled_program = teleprompter.compile(default_program, devset=trainset, optuna_trials_num=1, max_bootstrapped_demos=2, max_labeled_demos=5, eval_kwargs=eval_kwargs) 
+#     compiled_program = teleprompter.compile(default_program, devset=trainset, optuna_trials_num=1, max_bootstrapped_demos=2, max_labeled_demos=5, eval_kwargs=eval_kwargs)
 
 #     return compiled_program

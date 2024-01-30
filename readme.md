@@ -42,22 +42,27 @@ Install the rest of the requirements:
 
     pip install -r requirements.txt
 
-If you'll be using local models (e.g. llama-2), set up a local Text Generation Interface (TGI) [via these steps](https://github.com/stanfordnlp/dspy/blob/local_models_docs/docs/using_local_models.md#setting-up-the-text-generation-inference-server).
+### (optional) Set up models if you plan to do new runs
+All LM calls to reproduce our runs are cached. However, if you want to execute new calls you will need to set up OpenAI and local models.
+
+Set your OpenAI API KEY:
+
+    export OPENAI_API_KEY=<your-key>
+
+For local models (e.g. llama-2), set up a local Text Generation Interface (TGI) [via these steps](https://github.com/stanfordnlp/dspy/blob/local_models_docs/docs/using_local_models.md#setting-up-the-text-generation-inference-server). Make sure to point the `url` field in `lm_config.json` to your TGI server.
 
 
 ## 2) Load data
-Load the data. Optionally load a cache so can run our code without actually paying any inference costs.
+Load the data and cache needed to reproduce our results.
 
     bash scripts/load_data.sh
+    bash scripts/load_cache.sh
 
 
 ## 3) Compile and run
 
 All compilation IReRa runs from our paper can be reproduced by running `bash scripts/run_left_to_right.sh`. We provide the resulting program state in `results_precompiled/` so you can load our compiled IReRa programs. 
 
-Set your OpenAI API KEY:
-
-    export OPENAI_API_KEY=<your-key>
 
 Load our compiled IReRa for ESCO_TECH and evaluate:
 
@@ -92,6 +97,10 @@ Compile your own IReRa on ESCO_TECH and evaluate:
         --lm_config_path ./lm_config.json 
 
 Command line arguments are explained in the respective files. 
+
+If you want to speed up the runs, you can use multithreading (warning: this can mess up caching sometimes).
+
+    export DSP_NUM_THREADS=8
 
 The results from `run_irera.py` are slightly different than those of `compile_irera.py`, most likely due to a minor bug in loading and saving models. We take the results of `compile_irera.py` as the official results we report in the paper.
 

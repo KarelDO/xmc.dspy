@@ -1,6 +1,9 @@
 from dspy import Example
 from dspy.evaluate import Evaluate
 from src.metrics import *
+import os
+
+num_threads = os.environ.get('DSP_NUM_THREADS', 1)
 
 """ Wrap metrics in an interface to be used by DSPy and create evaluators to easily run these metrics across a set of examples.
 """
@@ -40,7 +43,7 @@ def create_evaluators(examples):
     evaluate_recall10 = Evaluate(
         devset=examples,
         metric=dspy_metric_recall10,
-        num_threads=8,
+        num_threads=num_threads,
         display_progress=False,
         display_table=0,
         max_errors=100,
@@ -48,7 +51,7 @@ def create_evaluators(examples):
     evaluate_rp10 = Evaluate(
         devset=examples,
         metric=dspy_metric_rp10,
-        num_threads=8,
+        num_threads=num_threads,
         display_progress=False,
         display_table=0,
         max_errors=100,
@@ -56,7 +59,7 @@ def create_evaluators(examples):
     evaluate_recall5 = Evaluate(
         devset=examples,
         metric=dspy_metric_recall5,
-        num_threads=8,
+        num_threads=num_threads,
         display_progress=False,
         display_table=0,
         max_errors=100,
@@ -64,7 +67,7 @@ def create_evaluators(examples):
     evaluate_rp5 = Evaluate(
         devset=examples,
         metric=dspy_metric_rp5,
-        num_threads=8,
+        num_threads=num_threads,
         display_progress=False,
         display_table=0,
         max_errors=100,
@@ -72,7 +75,7 @@ def create_evaluators(examples):
     evaluate_rp50 = Evaluate(
         devset=examples,
         metric=dspy_metric_rp50,
-        num_threads=8,
+        num_threads=num_threads,
         display_progress=False,
         display_table=0,
         max_errors=100,
