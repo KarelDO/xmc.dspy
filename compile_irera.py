@@ -1,6 +1,5 @@
 import os
 
-# os.environ["DSP_CACHEDIR"] = os.path.join(".", "local_cache")
 os.environ["DSP_NOTEBOOK_CACHEDIR"] = os.path.join(".", "local_cache")
 
 from dspy import Models
