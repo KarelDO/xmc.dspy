@@ -3,7 +3,6 @@ from collections import defaultdict
 import pandas as pd
 import json
 
-
 def _load_esco_ontology(esco_dir):
     # read file
     ontology_file = os.path.join(esco_dir, "skills_en_label.csv")
