@@ -1,4 +1,5 @@
 import os
+
 os.environ["DSP_NOTEBOOK_CACHEDIR"] = os.path.join(".", "local_cache")
 
 from dspy import Models
@@ -87,7 +88,6 @@ if __name__ == "__main__":
     print("dataset_name: ", dataset_name)
     print("do_validation: ", do_validation)
     print("do_test: ", do_test)
-
 
     Models(config_path=lm_config_path)
 
