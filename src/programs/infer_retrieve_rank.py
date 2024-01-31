@@ -32,12 +32,16 @@ class InferRetrieveRank(dspy.Module):
         self.rank_topk = config.rank_topk
 
     def forward(self, text: str) -> dspy.Prediction:
-        # Take the first chunk
-        _, text = next(self.chunker(text))
+        # NOTE: debugging prior
+        scores = self.infer_retrieve.prior
+        labels = sorted(scores, key=lambda k: scores[k], reverse=True)
 
-        # Get ranking from InferRetrieve
-        prediction = self.infer_retrieve(text)
-        labels = prediction.predictions
+        # # Take the first chunk
+        # _, text = next(self.chunker(text))
+
+        # # Get ranking from InferRetrieve
+        # prediction = self.infer_retrieve(text)
+        # labels = prediction.predictions
 
         # Get candidates
         options = labels[: self.rank_topk]
@@ -49,7 +53,7 @@ class InferRetrieveRank(dspy.Module):
             # Only keep options options that are valid
             selected_options = [o for o in predictions if o in options]
 
-            # print(f"Rank returned {len(selected_options)} valid options.")
+            print(f"Rank returned {len(selected_options)} valid options.")
 
             # Supplement options
             selected_options = selected_options + [

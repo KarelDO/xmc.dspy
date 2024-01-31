@@ -4,6 +4,7 @@ from src.programs import InferRetrieveRank
 from src.evaluators import supported_metrics
 from math import floor
 
+
 # NOTE: not actually left-to-right because of DSPy bug.
 class LeftToRightOptimizer:
     def __init__(
@@ -191,8 +192,8 @@ class LeftToRightOptimizer2(LeftToRightOptimizer):
         train_examples: list[dspy.Example],
         validation_examples: list[dspy.Example],
     ) -> dspy.Module:
-        train_examples_1 = train_examples[:floor(len(train_examples)/2)]
-        train_examples_2 = train_examples[floor(len(train_examples)/2):]
+        train_examples_1 = train_examples[: floor(len(train_examples) / 2)]
+        train_examples_2 = train_examples[floor(len(train_examples) / 2) :]
         # First round
         if self.infer_compile:
             # Create first-round teacher
@@ -255,10 +256,10 @@ class LeftToRightOptimizer2(LeftToRightOptimizer):
 
     def create_infer_compiler(self, metric):
         return self.create_compiler(metric)
-    
+
     def create_rank_compiler(self, metric):
         return self.create_compiler(metric)
-    
+
     # NOTE: make this better via kwarg passing and optimization config
     def create_compiler(self, metric):
         return BootstrapFewShotWithRandomSearch(
@@ -270,7 +271,7 @@ class LeftToRightOptimizer2(LeftToRightOptimizer):
             num_threads=self.num_threads,
             only_reset_uncompiled=True,  # This allows different demonstrations for Infer and Rank module.
         )
-    
+
 
 class LeftToRightOptimizer3(LeftToRightOptimizer2):
     def create_infer_compiler(self, metric):

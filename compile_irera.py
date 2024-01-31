@@ -12,6 +12,7 @@ from src.evaluators import create_evaluators
 
 import argparse
 
+
 def compile_irera(
     dataset_name: str,
     retriever_model_name: str,
@@ -279,7 +280,6 @@ if __name__ == "__main__":
     print(f"ontology_path: ", ontology_path)
     print(f"ontology_name: ", ontology_name)
     print(f"optimizer_name: ", optimizer_name)
-
 
     Models(config_path=lm_config_path)
 
