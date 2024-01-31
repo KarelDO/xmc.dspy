@@ -46,7 +46,7 @@ class InferRetrieveRank(dspy.Module):
         if not self.rank_skip:
             predictions = self.rank(text, options).predictions
 
-            # Only keep options options that are valid
+            # Only keep options that are valid
             selected_options = [o for o in predictions if o in options]
 
             # print(f"Rank returned {len(selected_options)} valid options.")
