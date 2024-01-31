@@ -2,7 +2,7 @@ import dspy
 from dspy.teleprompt import BootstrapFewShotWithRandomSearch
 from src.programs import InferRetrieveRank
 from src.evaluators import supported_metrics
-
+from math import floor
 
 # NOTE: not actually left-to-right because of DSPy bug.
 class LeftToRightOptimizer:
@@ -191,6 +191,8 @@ class LeftToRightOptimizer2(LeftToRightOptimizer):
         train_examples: list[dspy.Example],
         validation_examples: list[dspy.Example],
     ) -> dspy.Module:
+        train_examples_1 = train_examples[:floor(len(train_examples_1)/2)]
+        train_examples_2 = train_examples[floor(len(train_examples_1)/2):]
         # First round
         if self.infer_compile:
             # Create first-round teacher
@@ -208,7 +210,7 @@ class LeftToRightOptimizer2(LeftToRightOptimizer):
             program.rank.cot._compiled = True
 
             # create compiler
-            infer_compiler = self.create_compiler(
+            infer_compiler = self.create_infer_compiler(
                 self.infer_compile_metric,
             )
 
@@ -216,7 +218,7 @@ class LeftToRightOptimizer2(LeftToRightOptimizer):
             program = infer_compiler.compile(
                 program,
                 teacher=teacher,
-                trainset=train_examples,
+                trainset=train_examples_1,
                 valset=validation_examples,
                 restrict=range(20),
             )
@@ -236,13 +238,13 @@ class LeftToRightOptimizer2(LeftToRightOptimizer):
             teacher = program.deepcopy()
             teacher.rank.cot.lm = self.modules_to_lms["rank"]["teacher"]
 
-            rank_compiler = self.create_compiler(self.rank_compile_metric)
+            rank_compiler = self.create_rank_compiler(self.rank_compile_metric)
 
             # compile
             program = rank_compiler.compile(
                 program,
                 teacher=teacher,
-                trainset=train_examples,
+                trainset=train_examples_2,
                 valset=validation_examples,
                 restrict=range(20),
             )
@@ -251,10 +253,30 @@ class LeftToRightOptimizer2(LeftToRightOptimizer):
 
         return program
 
+    def create_infer_compiler(self, metric):
+        return self.create_compiler(metric)
+    
+    def create_rank_compiler(self, metric):
+        return self.create_compiler(metric)
+    
+    # NOTE: make this better via kwarg passing and optimization config
     def create_compiler(self, metric):
         return BootstrapFewShotWithRandomSearch(
             metric=metric,
             max_bootstrapped_demos=self.max_bootstrapped_demos,
+            max_labeled_demos=self.max_labeled_demos,
+            max_rounds=self.max_rounds,
+            num_candidate_programs=self.num_candidate_programs,
+            num_threads=self.num_threads,
+            only_reset_uncompiled=True,  # This allows different demonstrations for Infer and Rank module.
+        )
+    
+
+class LeftToRightOptimizer3(LeftToRightOptimizer2):
+    def create_infer_compiler(self, metric):
+        return BootstrapFewShotWithRandomSearch(
+            metric=metric,
+            max_bootstrapped_demos=4,
             max_labeled_demos=self.max_labeled_demos,
             max_rounds=self.max_rounds,
             num_candidate_programs=self.num_candidate_programs,
@@ -267,6 +289,7 @@ supported_optimizers = {
     "end-to-end": End2EndOptimizer,
     "left-to-right": LeftToRightOptimizer,
     "left-to-right2": LeftToRightOptimizer2,
+    "left-to-right3": LeftToRightOptimizer3,
 }
 
 
