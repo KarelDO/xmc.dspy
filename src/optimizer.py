@@ -191,8 +191,8 @@ class LeftToRightOptimizer2(LeftToRightOptimizer):
         train_examples: list[dspy.Example],
         validation_examples: list[dspy.Example],
     ) -> dspy.Module:
-        train_examples_1 = train_examples[:floor(len(train_examples_1)/2)]
-        train_examples_2 = train_examples[floor(len(train_examples_1)/2):]
+        train_examples_1 = train_examples[:floor(len(train_examples)/2)]
+        train_examples_2 = train_examples[floor(len(train_examples)/2):]
         # First round
         if self.infer_compile:
             # Create first-round teacher
