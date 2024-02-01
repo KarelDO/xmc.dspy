@@ -16,6 +16,9 @@ class IreraConfig:
         self.chunk_context_window = kwargs.pop("chunk_context_window", 3000)
         self.chunk_max_windows = kwargs.pop("chunk_max_windows", 5)
         self.chunk_window_overlap = kwargs.pop("chunk_window_overlap", 0.02)
+        self.retriever_embed_descriptions = kwargs.pop(
+            "retriever_embed_descriptions", False
+        )
 
         # program logic flow
         self.rank_skip = kwargs.pop("rank_skip", False)
@@ -23,6 +26,7 @@ class IreraConfig:
         # ontology
         self.ontology_path = kwargs.pop("ontology_path", None)
         self.ontology_name = kwargs.pop("ontology_name", None)
+        self.description_path = kwargs.pop("ontology_description_path", None)
         self.retriever_model_name = kwargs.pop(
             "retriever_model_name", "sentence-transformers/all-mpnet-base-v2"
         )

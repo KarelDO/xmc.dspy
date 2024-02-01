@@ -12,6 +12,7 @@ from src.evaluators import create_evaluators
 
 import argparse
 
+
 def compile_irera(
     dataset_name: str,
     retriever_model_name: str,
@@ -32,7 +33,9 @@ def compile_irera(
     do_test: bool,
     prior_path: str,
     ontology_path: str,
+    ontology_description_path: str,
     ontology_name: str,
+    retriever_embed_descriptions: bool,
     optimizer_name: str,
 ):
     # Create config
@@ -47,6 +50,8 @@ def compile_irera(
         ontology_name=ontology_name,
         retriever_model_name=retriever_model_name,
         optimizer_name=optimizer_name,
+        ontology_description_path=ontology_description_path,
+        retriever_embed_descriptions=retriever_embed_descriptions,
     )
 
     # load data (all of these files needed for the config could be dumped separately in one folder)
@@ -220,6 +225,16 @@ if __name__ == "__main__":
     )
 
     parser.add_argument("--ontology_path", type=str, help="Path to the ontology file.")
+    parser.add_argument(
+        "--ontology_description_path",
+        type=str,
+        help="Path to the ontology description file.",
+    )
+    parser.add_argument(
+        "--retriever_embed_descriptions",
+        action="store_true",
+        help="If retriever should embed descriptions instead of terms",
+    )
 
     parser.add_argument("--ontology_name", type=str, help="Name of the ontology.")
     parser.add_argument("--optimizer_name", type=str, help="Name of the ontology.")
@@ -255,6 +270,8 @@ if __name__ == "__main__":
     do_test = args.do_test
     prior_path = args.prior_path
     ontology_path = args.ontology_path
+    ontology_description_path = args.ontology_description_path
+    retriever_embed_descriptions = args.retriever_embed_descriptions
     ontology_name = args.ontology_name
     optimizer_name = args.optimizer_name
 
@@ -277,9 +294,9 @@ if __name__ == "__main__":
     print(f"do_test: ", do_test)
     print(f"prior_path: ", prior_path)
     print(f"ontology_path: ", ontology_path)
-    print(f"ontology_name: ", ontology_name)
+    print(f"ontology_description_path: ", ontology_description_path)
+    print(f"retriever_embed_descriptions: ", retriever_embed_descriptions)
     print(f"optimizer_name: ", optimizer_name)
-
 
     Models(config_path=lm_config_path)
 
@@ -303,7 +320,9 @@ if __name__ == "__main__":
         do_test,
         prior_path,
         ontology_path,
+        ontology_description_path,
         ontology_name,
+        retriever_embed_descriptions,
         optimizer_name,
     )
     experiment.save("./results")

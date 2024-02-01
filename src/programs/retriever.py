@@ -17,25 +17,42 @@ class Retriever:
 
         self.ontology_name = config.ontology_name
         self.ontology_term_path = config.ontology_path
+        self.ontology_description_path = config.description_path
+        self.retriever_embed_descriptions = config.retriever_embed_descriptions
 
         # Initialize Retriever
         self.model = SentenceTransformer(self.retriever_model_name)
         self.model.to("cpu")
 
         # Initialize Ontology
-        self.ontology_terms = self._load_terms()
+        self.ontology_terms = self._load_terms(self.ontology_term_path)
+        self.ontology_descriptions = self._load_terms(self.ontology_description_path)
         self.ontology_embeddings = self._load_embeddings()
 
-    def _load_terms(self) -> list[str]:
-        with open(self.ontology_term_path, "r") as fp:
+    def _load_terms(self, path: str) -> list[str]:
+        with open(path, "r") as fp:
             return [line.strip("\n") for line in fp.readlines()]
 
     def _load_embeddings(self) -> torch.Tensor:
-        """Load or create embeddings for all query terms."""
-        embedding_dir = os.path.join('.', 'data', 'embeddings')
+        """Load or create embeddings for all query terms or descriptions."""
+
+        to_embed = (
+            self.ontology_terms
+            if not self.retriever_embed_descriptions
+            else self.ontology_descriptions
+        )
+
+        embedding_dir = os.path.join(
+            ".",
+            "data",
+            "embeddings",
+        )
         if not os.path.exists(embedding_dir):
             os.makedirs(embedding_dir)
-        ontology_embeddings_filename = os.path.join(embedding_dir,f"{self.ontology_name}_embeddings[{self.friendly_model_name}].pt")
+        ontology_embeddings_filename = os.path.join(
+            embedding_dir,
+            f"{self.ontology_name}_{'term' if not self.retriever_embed_descriptions else 'description'}_embeddings[{self.friendly_model_name}].pt",
+        )
 
         # If the file exists, load. Else, create embeddings.
         if os.path.isfile(ontology_embeddings_filename):
@@ -44,7 +61,7 @@ class Retriever:
         else:
             self.model.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
             ontology_embeddings = self.model.encode(
-                self.ontology_terms, convert_to_tensor=True, show_progress_bar=True
+                to_embed, convert_to_tensor=True, show_progress_bar=True
             )
             with open(ontology_embeddings_filename, "wb") as f:
                 torch.save(ontology_embeddings, f)
