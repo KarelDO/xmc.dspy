@@ -433,7 +433,8 @@ class LeftToRightOptimizerBayesian(LeftToRightOptimizer):
 
             program = infer_compiler.compile(
                 program,
-                devset=train_examples,
+                # devset=train_examples,
+                devset=validation_examples,
                 optuna_trials_num=30,
                 max_bootstrapped_demos=2,
                 max_labeled_demos=5,
@@ -462,7 +463,8 @@ class LeftToRightOptimizerBayesian(LeftToRightOptimizer):
             # compile
             program = rank_compiler.compile(
                 program,
-                devset=train_examples,
+                # devset=train_examples,
+                devset=validation_examples,
                 optuna_trials_num=30,
                 max_bootstrapped_demos=2,
                 max_labeled_demos=5,
