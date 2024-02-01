@@ -1,5 +1,5 @@
 import dspy
-from dspy.teleprompt import BootstrapFewShotWithRandomSearch
+from dspy.teleprompt import BootstrapFewShotWithRandomSearch, BayesianSignatureOptimizer
 from src.programs import InferRetrieveRank
 from src.evaluators import supported_metrics
 from math import floor
@@ -388,6 +388,92 @@ class LeftToRightOptimizer4(LeftToRightOptimizer2):
         )
 
 
+class LeftToRightOptimizerBayesian(LeftToRightOptimizer):
+    eval_kwargs = dict(num_threads=10, display_progress=True, display_table=0)
+
+    def create_compiler(self, metric, prompt_model, task_model):
+        teleprompter = BayesianSignatureOptimizer(
+            prompt_model=prompt_model,
+            task_model=task_model,
+            metric=metric,
+            n=10,
+            init_temperature=1.0,
+        )
+        return teleprompter
+
+    def optimize(
+        self,
+        program: InferRetrieveRank,
+        train_examples: list[dspy.Example],
+        validation_examples: list[dspy.Example],
+    ) -> dspy.Module:
+        # First round
+        if self.infer_compile:
+            # Create first-round teacher
+            teacher = program.deepcopy()
+            teacher.infer_retrieve.infer.cot.lm = self.modules_to_lms[
+                "infer_retrieve.infer"
+            ]["teacher"]
+
+            # No ranking in first-round
+            rank_skipped = program.rank_skip
+            teacher.rank_skip = True
+            program.rank_skip = True
+            teacher.rank.cot._compiled = True
+            program.rank.cot._compiled = True
+
+            # create compiler
+            infer_compiler = self.create_compiler(
+                self.infer_compile_metric,
+                teacher.infer_retrieve.infer.cot.lm,
+                program.infer_retrieve.infer.cot.lm,
+            )
+
+            # compile
+
+            program = infer_compiler.compile(
+                program,
+                devset=train_examples,
+                optuna_trials_num=30,
+                max_bootstrapped_demos=2,
+                max_labeled_demos=5,
+                eval_kwargs=self.eval_kwargs,
+            )
+
+            # Set back Rank module to what it originally was.
+            program.rank_skip = rank_skipped
+
+            # Freeze module we just compiled
+            # NOTE: this may not be working actually.
+            program.infer_retrieve.infer.cot._compiled = True
+            program.rank.cot._compiled = False
+            program._compiled = False
+
+        # Second round
+        if self.rank_compile and not program.rank_skip:
+            # Create second-round teacher
+            teacher = program.deepcopy()
+            teacher.rank.cot.lm = self.modules_to_lms["rank"]["teacher"]
+
+            rank_compiler = self.create_compiler(
+                self.rank_compile_metric, teacher.rank.cot.lm, program.rank.cot.lm
+            )
+
+            # compile
+            program = rank_compiler.compile(
+                program,
+                devset=train_examples,
+                optuna_trials_num=30,
+                max_bootstrapped_demos=2,
+                max_labeled_demos=5,
+                eval_kwargs=self.eval_kwargs,
+            )
+
+            program.rank.cot._compiled = True
+
+        return program
+
+
 supported_optimizers = {
     "end-to-end": End2EndOptimizer,
     "left-to-right": LeftToRightOptimizer,
@@ -395,12 +481,5 @@ supported_optimizers = {
     "left-to-right2": LeftToRightOptimizer2,
     "left-to-right3": LeftToRightOptimizer3,
     "left-to-right4": LeftToRightOptimizer4,
+    "left-to-right-bayesian": LeftToRightOptimizerBayesian,
 }
-
-
-# def bayesian_optimizer_data(default_program, trainset, devset, test_name, dataset_name, kwargs):
-#     eval_kwargs = dict(num_threads=10, display_progress=True, display_table=0)
-#     teleprompter = BayesianSignatureOptimizer(prompt_model=kwargs["prompt_model"], task_model=kwargs["task_model"], metric=kwargs["metric"], n=10, init_temperature=1.0)
-#     compiled_program = teleprompter.compile(default_program, devset=trainset, optuna_trials_num=1, max_bootstrapped_demos=2, max_labeled_demos=5, eval_kwargs=eval_kwargs)
-
-#     return compiled_program
