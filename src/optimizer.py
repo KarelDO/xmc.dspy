@@ -206,7 +206,8 @@ class End2End2OptimizerValidation:
         self.rank_compile_metric = supported_metrics[rank_compile_metric_name]
 
         # compilation hyperparameters
-        self.max_bootstrapped_demos = 2
+        # self.max_bootstrapped_demos = 2
+        self.max_bootstrapped_demos = 5
         self.max_labeled_demos = 0
         self.max_rounds = 1
         self.num_candidate_programs = 10
@@ -288,7 +289,8 @@ class End2End2OptimizerTrain:
         self.rank_compile_metric = supported_metrics[rank_compile_metric_name]
 
         # compilation hyperparameters
-        self.max_bootstrapped_demos = 2
+        # self.max_bootstrapped_demos = 2
+        self.max_bootstrapped_demos = 5
         self.max_labeled_demos = 0
         self.max_rounds = 1
         self.num_candidate_programs = 10
