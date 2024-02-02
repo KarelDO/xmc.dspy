@@ -177,12 +177,245 @@ class End2EndOptimizer:
         )
 
         # Keep track of which modules were compiled
-        # NOTE: DSPy should do this internally
+        # NOTE: DSPy should do this internally, or make a module which does this.
         if self.infer_compile:
             program.infer_retrieve.infer.cot._compiled = True
         if self.rank_compile:
             program.rank.cot._compiled = True
 
+        return program
+
+
+# now on validation set instead of train
+class End2End2OptimizerValidation:
+    def __init__(
+        self,
+        modules_to_lms: dict[str, tuple],
+        infer_compile: bool,
+        infer_compile_metric_name: str,
+        rank_compile: bool,
+        rank_compile_metric_name: str,
+    ):
+        # TODO: add an optimization config
+        self.modules_to_lms = modules_to_lms
+
+        self.infer_compile = infer_compile
+        self.infer_compile_metric = supported_metrics[infer_compile_metric_name]
+
+        self.rank_compile = rank_compile
+        self.rank_compile_metric = supported_metrics[rank_compile_metric_name]
+
+        # compilation hyperparameters
+        self.max_bootstrapped_demos = 2
+        self.max_labeled_demos = 0
+        self.max_rounds = 1
+        self.num_candidate_programs = 10
+        self.num_threads = 8
+
+    def create_compiler(self, metric):
+        return BootstrapFewShotWithRandomSearch(
+            metric=metric,
+            max_bootstrapped_demos=self.max_bootstrapped_demos,
+            max_labeled_demos=self.max_labeled_demos,
+            max_rounds=self.max_rounds,
+            num_candidate_programs=self.num_candidate_programs,
+            num_threads=self.num_threads,
+        )
+
+    # NOTE: ideally, optimize should be agnostic of program implementation.
+    # NOTE: it should get an optimization config.
+    def optimize(
+        self,
+        program: InferRetrieveRank,
+        train_examples: list[dspy.Example],
+        validation_examples: list[dspy.Example],
+    ) -> dspy.Module:
+        # Freeze Rank module if unoptimized or skipped
+        if not self.rank_compile or program.rank_skip:
+            program.rank.cot._compiled = True
+        # Freeze Infer module if unoptimized
+        if not self.infer_compile:
+            program.infer_retrieve.infer.cot._compiled = True
+
+        # Create Teacher, set LMs
+        teacher = program.deepcopy()
+        teacher.infer_retrieve.infer.cot.lm = self.modules_to_lms[
+            "infer_retrieve.infer"
+        ]["teacher"]
+        teacher.rank.cot.lm = self.modules_to_lms["rank"]["teacher"]
+
+        # Create compiler
+        compiler = self.create_compiler(
+            self.rank_compile_metric,
+        )
+
+        # Compile
+        program = compiler.compile(
+            program,
+            teacher=teacher,
+            # trainset=train_examples,
+            trainset=validation_examples,
+            valset=validation_examples,
+            restrict=range(20),
+        )
+
+        # Keep track of which modules were compiled
+        # NOTE: DSPy should do this internally, or make a module which does this.
+        if self.infer_compile:
+            program.infer_retrieve.infer.cot._compiled = True
+        if self.rank_compile:
+            program.rank.cot._compiled = True
+
+        return program
+
+
+class End2End2OptimizerTrain:
+    def __init__(
+        self,
+        modules_to_lms: dict[str, tuple],
+        infer_compile: bool,
+        infer_compile_metric_name: str,
+        rank_compile: bool,
+        rank_compile_metric_name: str,
+    ):
+        # TODO: add an optimization config
+        self.modules_to_lms = modules_to_lms
+
+        self.infer_compile = infer_compile
+        self.infer_compile_metric = supported_metrics[infer_compile_metric_name]
+
+        self.rank_compile = rank_compile
+        self.rank_compile_metric = supported_metrics[rank_compile_metric_name]
+
+        # compilation hyperparameters
+        self.max_bootstrapped_demos = 2
+        self.max_labeled_demos = 0
+        self.max_rounds = 1
+        self.num_candidate_programs = 10
+        self.num_threads = 8
+
+    def create_compiler(self, metric):
+        return BootstrapFewShotWithRandomSearch(
+            metric=metric,
+            max_bootstrapped_demos=self.max_bootstrapped_demos,
+            max_labeled_demos=self.max_labeled_demos,
+            max_rounds=self.max_rounds,
+            num_candidate_programs=self.num_candidate_programs,
+            num_threads=self.num_threads,
+        )
+
+    # NOTE: ideally, optimize should be agnostic of program implementation.
+    # NOTE: it should get an optimization config.
+    def optimize(
+        self,
+        program: InferRetrieveRank,
+        train_examples: list[dspy.Example],
+        validation_examples: list[dspy.Example],
+    ) -> dspy.Module:
+        # Freeze Rank module if unoptimized or skipped
+        if not self.rank_compile or program.rank_skip:
+            program.rank.cot._compiled = True
+        # Freeze Infer module if unoptimized
+        if not self.infer_compile:
+            program.infer_retrieve.infer.cot._compiled = True
+
+        # Create Teacher, set LMs
+        teacher = program.deepcopy()
+        teacher.infer_retrieve.infer.cot.lm = self.modules_to_lms[
+            "infer_retrieve.infer"
+        ]["teacher"]
+        teacher.rank.cot.lm = self.modules_to_lms["rank"]["teacher"]
+
+        # Create compiler
+        compiler = self.create_compiler(
+            self.rank_compile_metric,
+        )
+
+        # Compile
+        program = compiler.compile(
+            program,
+            teacher=teacher,
+            trainset=train_examples,
+            valset=validation_examples,
+            restrict=range(20),
+        )
+
+        # Keep track of which modules were compiled
+        # NOTE: DSPy should do this internally, or make a module which does this.
+        if self.infer_compile:
+            program.infer_retrieve.infer.cot._compiled = True
+        if self.rank_compile:
+            program.rank.cot._compiled = True
+
+        return program
+
+
+class End2EndOptimizerBayesian:
+    eval_kwargs = dict(num_threads=10, display_progress=True, display_table=0)
+
+    def __init__(
+        self,
+        modules_to_lms: dict[str, tuple],
+        infer_compile: bool,
+        infer_compile_metric_name: str,
+        rank_compile: bool,
+        rank_compile_metric_name: str,
+    ):
+        # TODO: add an optimization config
+        self.modules_to_lms = modules_to_lms
+
+        self.infer_compile = infer_compile
+        self.infer_compile_metric = supported_metrics[infer_compile_metric_name]
+
+        self.rank_compile = rank_compile
+        self.rank_compile_metric = supported_metrics[rank_compile_metric_name]
+
+        # compilation hyperparameters
+        self.max_bootstrapped_demos = 2
+        self.max_labeled_demos = 0
+        self.max_rounds = 1
+        self.num_candidate_programs = 10
+        self.num_threads = 8
+
+    def create_compiler(self, metric, prompt_model, task_model):
+        return BayesianSignatureOptimizer(
+            prompt_model=prompt_model,
+            task_model=task_model,
+            metric=metric,
+            n=10,
+            init_temperature=1.0,
+        )
+
+    # NOTE: ideally, optimize should be agnostic of program implementation.
+    # NOTE: it should get an optimization config.
+    def optimize(
+        self,
+        program: InferRetrieveRank,
+        train_examples: list[dspy.Example],
+        validation_examples: list[dspy.Example],
+    ) -> dspy.Module:
+        # NOTE: always do full-end-to-end on Infer-Retrieve,
+        program.rank_skip = True
+
+        # Create Teacher, set LMs
+        program.rank.cot.lm = None
+        task_model = self.modules_to_lms["infer_retrieve.infer"]["student"]
+        prompt_model = self.modules_to_lms["infer_retrieve.infer"]["teacher"]
+
+        # Create compiler
+        compiler = self.create_compiler(
+            self.infer_compile_metric, prompt_model, task_model
+        )
+
+        program = compiler.compile(
+            program,
+            # devset=train_examples,
+            devset=validation_examples,
+            optuna_trials_num=30,
+            max_bootstrapped_demos=2,
+            max_labeled_demos=5,
+            eval_kwargs=self.eval_kwargs,
+        )
         return program
 
 
@@ -478,6 +711,9 @@ class LeftToRightOptimizerBayesian(LeftToRightOptimizer):
 
 supported_optimizers = {
     "end-to-end": End2EndOptimizer,
+    "end-to-end2-val": End2End2OptimizerValidation,
+    "end-to-end2-train": End2End2OptimizerTrain,
+    "end-to-end-bayesian": End2EndOptimizerBayesian,
     "left-to-right": LeftToRightOptimizer,
     "left-to-right1": LeftToRightOptimizer1,
     "left-to-right2": LeftToRightOptimizer2,
