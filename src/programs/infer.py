@@ -9,9 +9,12 @@ class Infer(dspy.Module):
     def __init__(self, config: IreraConfig):
         super().__init__()
         self.config = config
-        self.cot = dspy.ChainOfThought(
-            supported_signatures[config.infer_signature_name]
-        )
+        if config.use_predict:
+            self.cot = dspy.Predict(supported_signatures[config.infer_signature_name])
+        else:
+            self.cot = dspy.ChainOfThough(
+                supported_signatures[config.infer_signature_name]
+            )
 
     def forward(self, text: str) -> dspy.Prediction:
         parsed_outputs = set()

@@ -12,6 +12,7 @@ from src.evaluators import create_evaluators
 
 import argparse
 
+
 def compile_irera(
     dataset_name: str,
     retriever_model_name: str,
@@ -34,6 +35,7 @@ def compile_irera(
     ontology_path: str,
     ontology_name: str,
     optimizer_name: str,
+    use_predict: bool,
 ):
     # Create config
     config = IreraConfig(
@@ -47,6 +49,7 @@ def compile_irera(
         ontology_name=ontology_name,
         retriever_model_name=retriever_model_name,
         optimizer_name=optimizer_name,
+        use_predict=use_predict,
     )
 
     # load data (all of these files needed for the config could be dumped separately in one folder)
@@ -223,6 +226,11 @@ if __name__ == "__main__":
 
     parser.add_argument("--ontology_name", type=str, help="Name of the ontology.")
     parser.add_argument("--optimizer_name", type=str, help="Name of the ontology.")
+    parser.add_argument(
+        "--use_predict",
+        action="store_true",
+        help="Use dspy.predict instead of dspy.cot",
+    )
 
     # parser.add_argument(
     #     "--max_windows",
@@ -257,6 +265,7 @@ if __name__ == "__main__":
     ontology_path = args.ontology_path
     ontology_name = args.ontology_name
     optimizer_name = args.optimizer_name
+    use_predict = args.use_predict
 
     print(f"dataset_name: ", dataset_name)
     print(f"retriever_model_name: ", retriever_model_name)
@@ -279,7 +288,7 @@ if __name__ == "__main__":
     print(f"ontology_path: ", ontology_path)
     print(f"ontology_name: ", ontology_name)
     print(f"optimizer_name: ", optimizer_name)
-
+    print(f"use_predict: ", use_predict)
 
     Models(config_path=lm_config_path)
 
@@ -305,5 +314,6 @@ if __name__ == "__main__":
         ontology_path,
         ontology_name,
         optimizer_name,
+        use_predict,
     )
     experiment.save("./results")

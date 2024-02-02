@@ -9,7 +9,12 @@ class Rank(dspy.Module):
         super().__init__()
 
         self.config = config
-        self.cot = dspy.ChainOfThought(supported_signatures[config.rank_signature_name])
+        if config.use_predict:
+            self.cot = dspy.Predict(supported_signatures[config.rank_signature_name])
+        else:
+            self.cot = dspy.ChainOfThough(
+                supported_signatures[config.rank_signature_name]
+            )
 
     def forward(self, text: str, options: list[str]) -> dspy.Predict:
         parsed_outputs = []

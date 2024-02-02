@@ -3,7 +3,7 @@ from dspy.evaluate import Evaluate
 from src.metrics import *
 import os
 
-num_threads = os.environ.get('DSP_NUM_THREADS', 1)
+num_threads = os.environ.get("DSP_NUM_THREADS", 1)
 
 """ Wrap metrics in an interface to be used by DSPy and create evaluators to easily run these metrics across a set of examples.
 """

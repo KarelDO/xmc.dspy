@@ -16,6 +16,7 @@ class IreraConfig:
         self.chunk_context_window = kwargs.pop("chunk_context_window", 3000)
         self.chunk_max_windows = kwargs.pop("chunk_max_windows", 5)
         self.chunk_window_overlap = kwargs.pop("chunk_window_overlap", 0.02)
+        self.use_predict = kwargs.pop("use_predict", False)
 
         # program logic flow
         self.rank_skip = kwargs.pop("rank_skip", False)
