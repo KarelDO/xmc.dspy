@@ -12,6 +12,7 @@ from src.evaluators import create_evaluators
 
 import argparse
 
+
 def compile_irera(
     dataset_name: str,
     retriever_model_name: str,
@@ -34,6 +35,7 @@ def compile_irera(
     ontology_path: str,
     ontology_name: str,
     optimizer_name: str,
+    infer_num_predictions: int,
 ):
     # Create config
     config = IreraConfig(
@@ -47,6 +49,7 @@ def compile_irera(
         ontology_name=ontology_name,
         retriever_model_name=retriever_model_name,
         optimizer_name=optimizer_name,
+        infer_num_predictions=infer_num_predictions,
     )
 
     # load data (all of these files needed for the config could be dumped separately in one folder)
@@ -223,6 +226,11 @@ if __name__ == "__main__":
 
     parser.add_argument("--ontology_name", type=str, help="Name of the ontology.")
     parser.add_argument("--optimizer_name", type=str, help="Name of the ontology.")
+    parser.add_argument(
+        "--infer_num_predictions",
+        type=int,
+        help="Number of LM predictions to do in Infer module (default 1).",
+    )
 
     # parser.add_argument(
     #     "--max_windows",
@@ -257,6 +265,7 @@ if __name__ == "__main__":
     ontology_path = args.ontology_path
     ontology_name = args.ontology_name
     optimizer_name = args.optimizer_name
+    infer_num_predictions = args.infer_num_predictions
 
     print(f"dataset_name: ", dataset_name)
     print(f"retriever_model_name: ", retriever_model_name)
@@ -279,7 +288,7 @@ if __name__ == "__main__":
     print(f"ontology_path: ", ontology_path)
     print(f"ontology_name: ", ontology_name)
     print(f"optimizer_name: ", optimizer_name)
-
+    print(f"infer_num_predictions: ", infer_num_predictions)
 
     Models(config_path=lm_config_path)
 
@@ -305,5 +314,6 @@ if __name__ == "__main__":
         ontology_path,
         ontology_name,
         optimizer_name,
+        infer_num_predictions,
     )
     experiment.save("./results")

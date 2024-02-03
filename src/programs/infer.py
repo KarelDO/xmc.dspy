@@ -16,7 +16,10 @@ class Infer(dspy.Module):
     def forward(self, text: str) -> dspy.Prediction:
         parsed_outputs = set()
 
-        output = self.cot(text=text).completions.output
+        # NOTE: to improve downstream retrieval efficiency, we may want to normalize for slight variations in spelling / capitalization
+        output = self.cot(
+            text=text, config={"n": self.config.infer_num_predictions}
+        ).completions.output
         parsed_outputs.update(
             extract_labels_from_strings(output, do_lower=False, strip_punct=False)
         )
