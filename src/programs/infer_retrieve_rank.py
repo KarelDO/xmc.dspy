@@ -31,12 +31,12 @@ class InferRetrieveRank(dspy.Module):
         self.rank_skip = config.rank_skip
         self.rank_topk = config.rank_topk
 
-    def forward(self, text: str) -> dspy.Prediction:
+    def forward(self, text: str, label: list[str] = None) -> dspy.Prediction:
         # Take the first chunk
         _, text = next(self.chunker(text))
 
         # Get ranking from InferRetrieve
-        prediction = self.infer_retrieve(text)
+        prediction = self.infer_retrieve(text, label=label)
         labels = prediction.predictions
 
         # Get candidates
@@ -60,6 +60,9 @@ class InferRetrieveRank(dspy.Module):
 
         return dspy.Prediction(
             predictions=selected_options,
+            queries=prediction.queries,
+            query_rationale=prediction.query_rationale,
+            documents=predictions,
         )
 
     def dump_state(self):

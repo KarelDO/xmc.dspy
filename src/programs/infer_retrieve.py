@@ -28,9 +28,10 @@ class InferRetrieve(dspy.Module):
         self.prior = self._set_prior(config.prior_path)
         self.prior_A = config.prior_A
 
-    def forward(self, text: str) -> dspy.Prediction:
+    def forward(self, text: str, label: list[str] = None) -> dspy.Prediction:
         # Use the LM to predict label queries per chunk
-        preds = self.infer(text).predictions
+        infer_output = self.infer(text, label=label)
+        preds = infer_output.predictions
 
         # Execute the queries against the label index and get the maximal score per label
         scores = self.retriever.retrieve(preds)
@@ -42,7 +43,7 @@ class InferRetrieve(dspy.Module):
         labels = sorted(scores, key=lambda k: scores[k], reverse=True)
 
         return dspy.Prediction(
-            predictions=labels,
+            predictions=labels, queries=preds, query_rationale=infer_output.rationale
         )
 
     def _set_prior(self, prior_path):

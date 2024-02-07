@@ -5,4 +5,4 @@ from .rank import Rank
 from .retriever import Retriever
 from .infer_retrieve import InferRetrieve
 from .infer_retrieve_rank import InferRetrieveRank
-from .signatures import supported_signatures
+from .signatures import supported_signatures, supported_hints

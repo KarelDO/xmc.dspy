@@ -1,4 +1,5 @@
 import os
+import json
 
 os.environ["DSP_NOTEBOOK_CACHEDIR"] = os.path.join(".", "local_cache")
 
@@ -14,6 +15,7 @@ def run_irera(state_path, dataset_name, do_validation, do_test):
     # load data (all of these files needed for the config could be dumped separately in one folder)
     (
         _,
+        _,
         validation_examples,
         test_examples,
         _,
@@ -28,15 +30,43 @@ def run_irera(state_path, dataset_name, do_validation, do_test):
     if do_validation:
         print("validating final program...")
         validation_evaluators = create_evaluators(validation_examples)
-        validation_rp50 = validation_evaluators["rp50"](program)
-        validation_rp10 = validation_evaluators["rp10"](program)
-        validation_rp5 = validation_evaluators["rp5"](program)
+        validation_rp50, val_predictions = validation_evaluators["rp50"](
+            program, return_predictions=True
+        )
+        validation_rp10, scores_val_rp10 = validation_evaluators["rp10"](
+            program, return_all_scores=True
+        )
+        validation_rp5, scores_val_rp5 = validation_evaluators["rp5"](
+            program, return_all_scores=True
+        )
+
+        # TODO: encapsulate this evaluation format
+        for dct, rp10, rp5 in zip(val_predictions, scores_val_rp10, scores_val_rp5):
+            dct["correct_rp10"] = rp10
+            dct["correct_rp5"] = rp5
+        path = os.path.join(*os.path.split(state_path)[:-1], "val_predictions.json")
+        with open(path, "w") as fp:
+            json.dump(val_predictions, fp, indent=4)
 
     if do_test:
         print("testing final program...")
         test_evaluators = create_evaluators(test_examples)
-        test_rp10 = test_evaluators["rp10"](program)
-        test_rp5 = test_evaluators["rp5"](program)
+        test_rp50, test_predictions = test_evaluators["rp50"](
+            program, return_predictions=True
+        )
+        test_rp10, scores_test_rp10 = test_evaluators["rp10"](
+            program, return_all_scores=True
+        )
+        test_rp5, scores_test_rp5 = test_evaluators["rp5"](
+            program, return_all_scores=True
+        )
+
+        for dct, rp10, rp5 in zip(test_predictions, scores_test_rp10, scores_test_rp5):
+            dct["correct_rp10"] = rp10
+            dct["correct_rp5"] = rp5
+        path = os.path.join(*os.path.split(state_path)[:-1], "test_predictions.json")
+        with open(path, "w") as fp:
+            json.dump(test_predictions, fp, indent=4)
 
     if do_validation:
         print("Final program validation_rp50: ", validation_rp50)
@@ -44,6 +74,7 @@ def run_irera(state_path, dataset_name, do_validation, do_test):
         print("Final program validation_rp5: ", validation_rp5)
 
     if do_test:
+        print("Final program test_rp50: ", test_rp50)
         print("Final program test_rp10: ", test_rp10)
         print("Final program test_rp5: ", test_rp5)
 

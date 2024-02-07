@@ -1,7 +1,15 @@
 import dspy
 
-""" To add signatures, subclass `dspy.Signature` and add the signature to `supported_signatures` with a short-hand for easy access throughout the code.
+""" To add signatures or hints, subclass `dspy.Signature` and add the signature to `supported_signatures` with a short-hand for easy access throughout the code.
 """
+
+
+def InferHintESCO(output):
+    # hint = f"Produce the rationale to find the correct skills. The correct skills are: {', '.join(output)}."
+    # hint = f"Produce a simple rationale to find the correct skills. The correct skills are: {', '.join(output)}."
+    # hint = f"Produce a simple rationale to find the correct skills. The correct skills should include: {', '.join(output)}."
+    hint = f"Produce the reasoning to find the correct skills. Return all applicable skill queries. The correct skills should include: {', '.join(output)}. Add any other skills you think are relevant."
+    return hint
 
 
 class InferSignatureESCO(dspy.Signature):
@@ -64,3 +72,5 @@ supported_signatures = {
     "infer_biodex": InferSignatureBioDEX,
     "rank_biodex": RankSignatureBioDEX,
 }
+
+supported_hints = {"infer_esco": InferHintESCO}

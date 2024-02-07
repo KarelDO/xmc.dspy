@@ -137,8 +137,12 @@ def load_data(dataset: str):
     print(f"{dataset}: # Used Validation size: {len(validation_examples)}")
     print(f"{dataset}: # Used Test size: {len(test_examples)}")
 
+    # Create train_examples with label inputs
+    train_examples_label = [x.with_inputs("text", "label") for x in train_examples]
+
     return (
         train_examples,
+        train_examples_label,
         validation_examples,
         test_examples,
         ontology_items,

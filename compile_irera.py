@@ -53,6 +53,7 @@ def compile_irera(
     # load data (all of these files needed for the config could be dumped separately in one folder)
     (
         train_examples,
+        train_examples_with_label,
         validation_examples,
         test_examples,
         _,
@@ -91,10 +92,17 @@ def compile_irera(
     }
     optimizer = optimizer_class(**optimizer_kwargs)
 
+    # NOTE: resolve this in cli and saving
+    bootstrap_with_hint = True
     # Optimize
-    program = optimizer.optimize(
-        program, train_examples, validation_examples=validation_examples
-    )
+    if bootstrap_with_hint:
+        program = optimizer.optimize(
+            program, train_examples_with_label, validation_examples=validation_examples
+        )
+    else:
+        program = optimizer.optimize(
+            program, train_examples, validation_examples=validation_examples
+        )
 
     # Validate / Test
     if do_validation:
@@ -236,27 +244,32 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # NOTE: use a config object.
+
+    # Misc
     lm_config_path = args.lm_config_path
+    do_validation = args.do_validation
+    do_test = args.do_test
+    # Data
     dataset_name = args.dataset_name
-    retriever_model_name = args.retriever_model_name
+    ontology_path = args.ontology_path
+    ontology_name = args.ontology_name
+    prior_path = args.prior_path
+    # Program instantiation
     infer_signature_name = args.infer_signature_name
-    infer_student_model_name = args.infer_student_model_name
-    infer_teacher_model_name = args.infer_teacher_model_name
     rank_signature_name = args.rank_signature_name
+    infer_student_model_name = args.infer_student_model_name
     rank_student_model_name = args.rank_student_model_name
+    retriever_model_name = args.retriever_model_name
+    prior_A = args.prior_A
+    rank_topk = args.rank_topk
+    # Optimization
+    infer_teacher_model_name = args.infer_teacher_model_name
     rank_teacher_model_name = args.rank_teacher_model_name
     infer_compile = not args.no_infer_compile
     infer_compile_metric_name = args.infer_compile_metric_name
     rank_skip = args.no_rank
     rank_compile = not args.no_rank_compile
     rank_compile_metric_name = args.rank_compile_metric_name
-    prior_A = args.prior_A
-    rank_topk = args.rank_topk
-    do_validation = args.do_validation
-    do_test = args.do_test
-    prior_path = args.prior_path
-    ontology_path = args.ontology_path
-    ontology_name = args.ontology_name
     optimizer_name = args.optimizer_name
 
     print(f"dataset_name: ", dataset_name)
