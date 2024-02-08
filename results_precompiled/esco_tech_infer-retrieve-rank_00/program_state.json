@@ -191,6 +191,8 @@
         "ontology_path": "./data/esco/skills_en_label.txt",
         "ontology_name": "esco",
         "retriever_model_name": "sentence-transformers/all-mpnet-base-v2",
-        "optimizer_name": "left-to-right"
+        "optimizer_name": "left-to-right",
+        "infer_student_model_name": "gpt-3.5-turbo-instruct",
+        "rank_student_model_name": "gpt-4-1106-preview"
     }
 }

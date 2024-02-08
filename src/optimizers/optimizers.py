@@ -95,6 +95,7 @@ class Left2RightOptimizer(IReRaOptimizer):
         student.rank_skip = False
         student.infer_retrieve.infer.cot._compiled = True
         student.rank.cot._compiled = False
+        student._compiled = False
         return student
 
     def _prepare_rank_teacher(self, program: Module) -> Module:
@@ -123,6 +124,7 @@ class Left2RightOptimizer(IReRaOptimizer):
 
         compiler_infer_kwargs = self.config.infer_compile_config
         compiler_infer = get_compiler(compiler_infer_kwargs)
+        compiler_infer.only_reset_uncompiled = True
 
         # compile first round
         student_infer_compiled = compiler_infer.compile(
@@ -140,6 +142,7 @@ class Left2RightOptimizer(IReRaOptimizer):
 
         compiler_rank_kwargs = self.config.rank_compile_config
         compiler_rank = get_compiler(compiler_rank_kwargs)
+        compiler_rank.only_reset_uncompiled = True
 
         # compile first round
         student_rank_compiled = compiler_rank.compile(
