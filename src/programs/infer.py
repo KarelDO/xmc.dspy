@@ -9,13 +9,10 @@ class Infer(dspy.Module):
     def __init__(self, config: IreraConfig):
         super().__init__()
         self.config = config
-        # NOTE: All CoTs should support this? Don't want this in the logic.
-        # self.cot = dspy.ChainOfThought(
-        #     supported_signatures[config.infer_signature_name]
-        # )
         self.cot = dspy.ChainOfThoughtWithHint(
             supported_signatures[config.infer_signature_name]
         )
+        self.cot.lm = config.infer_student_model
         self.hinter = supported_hints[config.infer_signature_name]
 
     def forward(self, text: str, label: list[str] = None) -> dspy.Prediction:

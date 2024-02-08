@@ -1,4 +1,5 @@
 import json
+from dspy import Models
 
 
 class IreraConfig:
@@ -9,6 +10,10 @@ class IreraConfig:
         self.infer_signature_name = kwargs.pop("infer_signature_name")
         self.rank_signature_name = kwargs.pop("rank_signature_name")
 
+        # lms
+        self.infer_student_model_name = kwargs.pop("infer_student_model_name")
+        self.rank_student_model_name = kwargs.pop("rank_student_model_name")
+
         # hyperparameters
         self.prior_A = kwargs.pop("prior_A", 0)
         self.prior_path = kwargs.pop("prior_path", None)
@@ -18,7 +23,7 @@ class IreraConfig:
         self.chunk_window_overlap = kwargs.pop("chunk_window_overlap", 0.02)
 
         # program logic flow
-        self.rank_skip = kwargs.pop("rank_skip", False)
+        self.rank_skip = kwargs.pop("no_rank", False)
 
         # ontology
         self.ontology_path = kwargs.pop("ontology_path", None)
@@ -29,6 +34,53 @@ class IreraConfig:
 
         # optimizer
         self.optimizer_name = kwargs.pop("optimizer_name", None)
+
+    @classmethod
+    def add_arguments(cls, parser):
+        parser.add_argument(
+            "--retriever_model_name",
+            type=str,
+            default="sentence-transformers/all-mpnet-base-v2",
+            help="Specify the retriever model name (default: sentence-transformers/all-mpnet-base-v2)",
+        )
+        parser.add_argument("--infer_signature_name", type=str)
+        parser.add_argument("--rank_signature_name", type=str)
+        parser.add_argument("--infer_student_model_name", type=str)
+        parser.add_argument("--rank_student_model_name", type=str)
+        parser.add_argument(
+            "--no_rank",
+            action="store_true",
+            help="Specify if the Rank module should be ablated (default: False)",
+        )
+        parser.add_argument(
+            "--prior_A",
+            default=0,
+            type=int,
+            help="Specify influence of prior statistics on predicting reranking (default: 0)",
+        )
+        parser.add_argument(
+            "--rank_topk",
+            default=50,
+            type=int,
+            help="Specify how many the top k options that are input to the Rank module for reranking (default: 50)",
+        )
+        parser.add_argument(
+            "--prior_path",
+            type=str,
+            help="Path to the JSON file containing prior data.",
+        )
+        parser.add_argument(
+            "--ontology_path", type=str, help="Path to the ontology file."
+        )
+        parser.add_argument("--ontology_name", type=str, help="Name of the ontology.")
+
+    @property
+    def infer_student_model(self):
+        return Models.get_lm(self.infer_student_model_name)
+
+    @property
+    def rank_student_model(self):
+        return Models.get_lm(self.rank_student_model_name)
 
     def __repr__(self):
         return self.to_dict().__repr__()

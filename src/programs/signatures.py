@@ -1,4 +1,5 @@
 import dspy
+from collections import defaultdict
 
 """ To add signatures or hints, subclass `dspy.Signature` and add the signature to `supported_signatures` with a short-hand for easy access throughout the code.
 """
@@ -73,4 +74,4 @@ supported_signatures = {
     "rank_biodex": RankSignatureBioDEX,
 }
 
-supported_hints = {"infer_esco": InferHintESCO}
+supported_hints = defaultdict(lambda x: None, {"infer_esco": InferHintESCO})

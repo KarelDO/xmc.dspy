@@ -10,6 +10,7 @@ class Rank(dspy.Module):
 
         self.config = config
         self.cot = dspy.ChainOfThought(supported_signatures[config.rank_signature_name])
+        self.cot.lm = config.rank_student_model
 
     def forward(self, text: str, options: list[str]) -> dspy.Predict:
         parsed_outputs = []
