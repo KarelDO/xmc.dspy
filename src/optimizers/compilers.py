@@ -11,6 +11,19 @@ supported_compilers = {
 }
 
 
+# Success metric
+# Naive: teacher success
+# Less naive: teacher - student success (marginally more costly)
+# Even less naive: student validation increase (this is costly; needs to be rerun for every bootstrap)
+
+# New optimizer that directly takes student performance into account. Greedy search.
+#
+# IterativeBootstrapFewShot
+## 1. bootstrap some examples (or just one)
+## 2. While condition is not met (combination of tries, max bootstraps, etc.)
+### 2.1 add one to student, accept if performance goes up.
+### 2.2 also add to teacher, rebootstrap new cases.
+
 
 def get_compiler(config: CompilerConfig):
     compiler_name = config.compiler_name
