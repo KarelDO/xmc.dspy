@@ -74,4 +74,4 @@ supported_signatures = {
     "rank_biodex": RankSignatureBioDEX,
 }
 
-supported_hints = defaultdict(lambda x: None, {"infer_esco": InferHintESCO})
+supported_hints = defaultdict(lambda: None, {"infer_esco": InferHintESCO})
