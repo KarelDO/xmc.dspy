@@ -1,0 +1,10 @@
+
+
+# BioDEX large (e2e with BFS at 2; no random search; compile for RP10)
+python compile_irera.py --lm_config_path ./lm_config.json --retriever_model_name FremyCompany/BioLORD-STAMB2-v1 --dataset_name biodex_reactions_large --infer_signature_name infer_biodex --rank_signature_name rank_biodex --infer_student_model_name llama-2-13b-chat --infer_teacher_model_name gpt-3.5-turbo-instruct --rank_student_model_name gpt-4-0125-preview --rank_teacher_model_name gpt-4-0125-preview --infer_compile_metric_name rp10 --rank_compile_metric_name rp10 --prior_A 1000 --rank_topk 50 --do_validation --do_test --prior_path ./data/biodex/biodex_priors.json --ontology_path ./data/biodex/reaction_terms.txt --ontology_name biodex --optimizer_name end-to-end --infer_compile_name bootstrap-few-shot --rank_compile_name bootstrap-few-shot --infer_compile_max_bootstrapped_demos 2 --rank_compile_max_bootstrapped_demos 2 --save_predictions 
+
+# BioDEX large (e2e with BFSRS at 2; what we were previously doing; compile for RP10)
+python compile_irera.py --lm_config_path ./lm_config.json --retriever_model_name FremyCompany/BioLORD-STAMB2-v1 --dataset_name biodex_reactions_large --infer_signature_name infer_biodex --rank_signature_name rank_biodex --infer_student_model_name llama-2-13b-chat --infer_teacher_model_name gpt-3.5-turbo-instruct --rank_student_model_name gpt-4-0125-preview --rank_teacher_model_name gpt-4-0125-preview --infer_compile_metric_name rp10 --rank_compile_metric_name rp10 --prior_A 1000 --rank_topk 50 --do_validation --do_test --prior_path ./data/biodex/biodex_priors.json --ontology_path ./data/biodex/reaction_terms.txt --ontology_name biodex --optimizer_name end-to-end --infer_compile_name bootstrap-few-shot-with-random-search --rank_compile_name bootstrap-few-shot-with-random-search --infer_compile_max_bootstrapped_demos 2 --rank_compile_max_bootstrapped_demos 2 --save_predictions 
+
+# BioDEX large (l2r with BFS at 3/2; compile for RP10)
+# BioDEX large (l2r with BFS at 3/2; compile for RP50/RP10)

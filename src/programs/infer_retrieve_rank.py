@@ -6,6 +6,8 @@ from .config import IreraConfig
 from .rank import Rank
 from .chunking import Chunker
 
+# NOTE: need better logging.
+import  time
 
 class InferRetrieveRank(dspy.Module):
     """Infer-Retrieve-Rank, as defined in https://arxiv.org/abs/2401.12178."""
@@ -34,7 +36,6 @@ class InferRetrieveRank(dspy.Module):
     def forward(self, text: str, label: list[str] = None) -> dspy.Prediction:
         # Take the first chunk
         _, text = next(self.chunker(text))
-
         # Get ranking from InferRetrieve
         prediction = self.infer_retrieve(text, label=label)
         labels = prediction.predictions
@@ -44,7 +45,10 @@ class InferRetrieveRank(dspy.Module):
 
         # Rerank
         if not self.rank_skip:
+            start = time.time()
             predictions = self.rank(text, options).predictions
+            end = time.time()
+            print(f"Rank time: {end - start}")
 
             # Only keep options options that are valid
             selected_options = [o for o in predictions if o in options]

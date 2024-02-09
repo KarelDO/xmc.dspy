@@ -6,6 +6,7 @@ from .config import IreraConfig
 from .retriever import Retriever
 from .infer import Infer
 
+import time
 
 class InferRetrieve(dspy.Module):
     """Infer-Retrieve. Sets the Retriever, initializes the prior."""
@@ -30,11 +31,17 @@ class InferRetrieve(dspy.Module):
 
     def forward(self, text: str, label: list[str] = None) -> dspy.Prediction:
         # Use the LM to predict label queries per chunk
+        start = time.time()
         infer_output = self.infer(text, label=label)
+        end = time.time()
+        print(f"Infer time: {end - start}")
         preds = infer_output.predictions
 
         # Execute the queries against the label index and get the maximal score per label
+        start = time.time()
         scores = self.retriever.retrieve(preds)
+        end = time.time()
+        print(f"Retrieve time: {end - start}")
 
         # Reweigh scores with prior statistics
         scores = self._update_scores_with_prior(scores)

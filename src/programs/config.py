@@ -35,6 +35,7 @@ class IreraConfig:
         # optimizer
         self.optimizer_name = kwargs.pop("optimizer_name", None)
 
+
     @classmethod
     def add_arguments(cls, parser):
         parser.add_argument(
