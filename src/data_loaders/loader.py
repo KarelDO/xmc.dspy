@@ -68,7 +68,7 @@ def load_data(dataset: str):
             ontology_descriptions,
             ontology_prior,
         ) = _load_esco("techwolf", None, "techwolf_test_annotations.csv")
-    elif dataset == "biodex_reactions":
+    elif dataset == "biodex_reactions" or dataset == "biodex_reactions_large":
         (
             validation_df,
             test_df,
@@ -130,6 +130,10 @@ def load_data(dataset: str):
         # validation_examples = validation_examples[100:200]
         # test_examples = test_examples[:500]
         train_examples = validation_examples[:10]
+        validation_examples = validation_examples[100:150]
+        test_examples = test_examples[:250]
+    elif dataset == "biodex_reactions_large":
+        train_examples = validation_examples[:100]
         validation_examples = validation_examples[100:150]
         test_examples = test_examples[:250]
 
