@@ -144,7 +144,7 @@ class Left2RightOptimizer(IReRaOptimizer):
         compiler_rank = get_compiler(compiler_rank_kwargs)
         compiler_rank.only_reset_uncompiled = True
 
-        # compile first round
+        # compile second round
         student_rank_compiled = compiler_rank.compile(
             student_rank,
             teacher=teacher_rank,
