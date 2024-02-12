@@ -7,7 +7,8 @@ from .rank import Rank
 from .chunking import Chunker
 
 # NOTE: need better logging.
-import  time
+import time
+
 
 class InferRetrieveRank(dspy.Module):
     """Infer-Retrieve-Rank, as defined in https://arxiv.org/abs/2401.12178."""

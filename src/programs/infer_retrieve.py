@@ -8,6 +8,7 @@ from .infer import Infer
 
 import time
 
+
 class InferRetrieve(dspy.Module):
     """Infer-Retrieve. Sets the Retriever, initializes the prior."""
 

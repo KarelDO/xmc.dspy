@@ -35,7 +35,6 @@ class IreraConfig:
         # optimizer
         self.optimizer_name = kwargs.pop("optimizer_name", None)
 
-
     @classmethod
     def add_arguments(cls, parser):
         parser.add_argument(
@@ -74,6 +73,7 @@ class IreraConfig:
             "--ontology_path", type=str, help="Path to the ontology file."
         )
         parser.add_argument("--ontology_name", type=str, help="Name of the ontology.")
+        parser.add_argument("--chunk_context_window", type=int)
 
     @property
     def infer_student_model(self):
