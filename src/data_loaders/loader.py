@@ -50,7 +50,7 @@ def load_data(dataset: str):
         ) = _load_esco(
             "house", "house_validation_annotations.csv", "house_test_annotations.csv"
         )
-    elif dataset == "esco_tech":
+    elif dataset == "esco_tech" or dataset == "esco_tech_large":
         (
             validation_df,
             test_df,
@@ -113,6 +113,9 @@ def load_data(dataset: str):
     if dataset == "esco_house" or dataset == "esco_tech":
         train_examples = validation_examples[:10]
         validation_examples = validation_examples[10:]
+    if dataset == "esco_tech_large":
+        train_examples = validation_examples[:40]
+        validation_examples = validation_examples[40:]
     elif dataset == "esco_techwolf":
         # techwolf has no validation data, use a mix of house and tech as proxy
         house_train, house_val, _, _, _, _ = load_data("esco_house")

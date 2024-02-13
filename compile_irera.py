@@ -6,8 +6,8 @@ os.environ["DSP_NOTEBOOK_CACHEDIR"] = os.path.join(".", "local_cache")
 from dspy import Models
 
 from src.data_loaders import load_data
-from src.programs import IreraConfig, InferRetrieveRank
 from src.optimizers import OptimizerConfig, get_optimizer
+from src.programs import IreraConfig, InferRetrieveRank
 from src.experiment import Experiment
 
 from run_irera import run_irera

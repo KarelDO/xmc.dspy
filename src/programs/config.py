@@ -73,7 +73,7 @@ class IreraConfig:
             "--ontology_path", type=str, help="Path to the ontology file."
         )
         parser.add_argument("--ontology_name", type=str, help="Name of the ontology.")
-        parser.add_argument("--chunk_context_window", type=int)
+        parser.add_argument("--chunk_context_window", type=int, default=3000)
 
     @property
     def infer_student_model(self):

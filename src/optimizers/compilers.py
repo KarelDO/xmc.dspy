@@ -218,6 +218,7 @@ class IterativeBootstrapFewShotGain(BootstrapFewShot):
                 ):
                     if name == predictor_name:
                         # TODO: make sure we don't put too many demos
+                        print(len(predictor.demos))
                         predictor.demos.append(demo)
 
         return success
