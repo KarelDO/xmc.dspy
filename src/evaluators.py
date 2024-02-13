@@ -38,6 +38,17 @@ def dspy_metric_recall1(gold: Example, pred, trace=None) -> float:
     return recall_at_k(gold.label, pred.predictions, 1)
 
 
+# Experimental metric for Rank module
+def rank_gain_recall10(gold: Example, pred, trace=None) -> float:
+    # Check the RP10 of the IRe module
+    recall10_ire = recall_at_k(gold.label, pred.retrieve_outputs, k=10)
+    recall10_irera = recall_at_k(gold.label, pred.predictions, k=10)
+
+    rank_gain = recall10_irera - recall10_ire
+    rank_success = rank_gain > 0
+    return rank_success
+
+
 def create_evaluators(examples):
     # create a suite of DSPy evaluators based on a set of examples
     evaluate_recall10 = Evaluate(
@@ -95,4 +106,5 @@ supported_metrics = {
     "rp50": dspy_metric_rp50,
     "recall5": dspy_metric_recall5,
     "recall10": dspy_metric_recall10,
+    "rank_gain_recall10": rank_gain_recall10,
 }

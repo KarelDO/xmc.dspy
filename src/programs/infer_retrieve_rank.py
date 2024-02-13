@@ -68,6 +68,7 @@ class InferRetrieveRank(dspy.Module):
             queries=prediction.queries,
             query_rationale=prediction.query_rationale,
             reranked_documents=predictions if not self.rank_skip else None,
+            retrieve_outputs=labels,
         )
 
     def dump_state(self):
